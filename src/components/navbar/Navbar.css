@@ -1,0 +1,122 @@
+.bgc {
+background-color: #ff6b81;
+
+}
+
+.contner {
+    display: flex;
+    background-color: #ff6b81;
+    font-style: "Inter", sans-serif;
+    justify-content: space-between !important;
+}
+
+.navText{
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+.navCart {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+.navCart :hover{
+    box-shadow: black;
+}
+
+
+
+.navIcone{
+    width: 30px;
+    height: 30px;
+    color: black;   
+    display: flex;
+    flex-direction: column;
+
+}
+ 
+ .noneHovering{
+    display: none;
+} 
+
+.hovering{
+    /* margin-right: 150px;*/
+     position:absolute; 
+     z-index: 1;
+     height: auto;
+      width: 12%; 
+     background-color: #FFFFFF; 
+     /* width: 30%; */
+     /* height: 100%; */
+     /* position: fixed; */
+     /* top: 0; */
+     /* right: -10%;
+     background: #fff;
+     box-shadow: 0px 0px 5px #d4d4d4;
+     font-size: 16px;
+     transition: all 60.50s ease; */
+    } 
+ 
+.cartDiters{
+    position: relative;
+    /* overflow: hidden; */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    /* background-color: blue; */
+}
+
+
+
+.containerDiv{
+    display: flex ;
+    justify-content:flex-end  ;
+    width:1125px ;
+} 
+
+
+.badge{
+    position: absolute;
+    margin-left: 25px;
+    top: 22px;
+    padding: 0!important;
+    width: 24px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cont-logo {
+    font-size: 40px;
+}
+
+.cont-text  {
+    display: flex;
+    flex: .80;
+    align-items: center;
+    justify-content: space-around;
+    font-family: 35px;
+}
+
+.contBtns {
+    color: #FFFFFF !important;
+    background-color: #ff6b81 !important;
+    padding: 12px 30px !important;
+    border: 2px solid #FFFFFF !important;
+}
+
+
+.contBtns:hover {
+    background-color: #FFFFFF !important;
+    color: #ff6b81 !important;
+}
+
+
+.buttnCart{
+    border: #ff6b81;
+    background-color: #ff6b81;
+
+
+}
+
+

@@ -1,0 +1,39 @@
+.footer  {
+    background-color: #666666;
+    padding: 90px 0;
+    color: #FFFFFF;
+}
+
+.footerImg{
+    color: aliceblue;
+    height: 50px;
+    width: 40%;
+    margin-bottom: 16px;
+}
+
+
+.social{
+    margin: 20px 0;
+    /* margin: 20px; */
+    display: flex;
+    justify-content: space-between;
+}
+
+h3{
+    padding-bottom: 30px;
+}
+
+li{
+    margin-bottom: 12px;
+    list-style-type: none;
+}
+ul{
+    margin-left: 0!important;
+    padding-left: 19px !important;
+    list-style-type: none;
+    
+}
+a{
+    color: #FFFFFF;
+    list-style-type: none;
+}

@@ -1,0 +1,58 @@
+.hedarCart{
+    margin-top: 50px;
+    padding: 20px;
+    /* background-color: aqua; */
+}
+.hedarTextCart{
+    /* height: 50px; */
+    padding: 15px;
+    background-color: #f2f2f2;
+    display: flex;
+    /* flex: 1; */
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    /* display: inline; */
+}
+
+
+.message{
+    position: relative;
+    top: 10px;
+    color:green;
+  }
+.err{
+    position: relative;
+    top: 10px;
+    color:red;
+  }
+
+
+.futterTextCart{
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+.h-50{
+  height:50px
+}
+
+.bg{
+  background-color: #f2f2f2 !important;
+}
+
+
+.couponInp{
+  width: 215px;
+  background-color:#f2f2f2;
+   height: 40px;
+}
+.couponBtn{
+height: 43px;
+border: none;
+width: 200px;
+margin-left: 20px;
+
+}

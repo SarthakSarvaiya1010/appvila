@@ -1,0 +1,50 @@
+.achTital{
+    font-weight: bold;
+    font-size: 35px;
+
+}
+
+
+.achievement{
+    background-color: #ff6b81;
+    color:#FFFFFF ;
+    padding:  70px 0 ;
+}
+
+
+.achHead{
+    display: flex;
+    flex-direction: column;
+    justify-content:center ;
+    align-items: center;
+    padding-top: 30px;
+    /* margin-bottom: 50px; */
+}
+
+.achRow2{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    
+}
+
+.achRow{
+    display: flex;
+    justify-content: space-around;
+    margin: 0px 50px;
+    margin-left:100px ;
+}
+
+.achText{
+    padding-top: 20px;
+    
+}
+/* h3{
+    margin: 0 !important;
+}
+
+p{
+    margin: 0 !important;
+
+} */

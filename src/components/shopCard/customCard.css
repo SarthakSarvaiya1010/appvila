@@ -1,0 +1,71 @@
+.customCard{
+    /*  padding: 25px; */
+    margin: 20px;
+    box-shadow: none;
+    border: none;
+    
+}
+
+.cardIcon{
+    border: none !important;
+    padding: 16px;
+}
+.cardCont:hover{
+    scale: 1.09;
+      
+}
+
+.custBttnAdd{
+    font-size: 13px; 
+    padding: 10px;
+    border: 1px  ;
+}
+
+
+.custBttnView{
+    font-size: 13px; 
+    border: 1px  ;
+    padding: 10px;
+    background-color:#333333 ;
+    color: #FFFFFF;
+    display: none;
+}
+
+.custBttnViewed{
+    font-size: 13px; 
+    border: 1px  ;
+    padding: 10px;
+    background-color:#333333 ;
+    color: #FFFFFF;
+    /* position:relative; */
+}
+
+
+
+
+
+
+
+
+.saletag{
+    border-radius: 50%;
+    background-color: #ff6b81;
+    height: 35px;
+    width: 35px;
+    padding: 8%;
+    /* text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center; */
+    color: #FFFFFF;
+}
+
+.cardtag{
+    /* margin-left: 30px; */
+    position: absolute;
+    right: 15px;
+    top: -1px;
+
+    /* text-align: center; */
+    
+}

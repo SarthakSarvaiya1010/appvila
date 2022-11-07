@@ -1,0 +1,15 @@
+.cardCont{
+    padding: 25px;
+    /* background-color: yellow; */
+    border: none !important;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.cardIcon{
+    border: none !important;
+    padding: 16px;
+}
+.cardCont:hover{
+    scale: 1.09;
+      
+}

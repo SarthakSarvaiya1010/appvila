@@ -1,0 +1,57 @@
+.ovocont{
+    padding: 100px 0;
+}
+
+.headText{
+    font-size: 35px   ;
+    font-weight: bold;
+    margin-bottom: 20px !important;
+}
+
+.mainText{
+    font-size: 17px;
+    font-weight: lighter;
+    margin-bottom:15 !important ;
+}
+
+.ovoicon{
+    margin-bottom:30px ;
+}
+
+
+.ovobutton{
+    margin-top: 30px !important;
+}
+
+.ovoButt{
+    color: #FFFFFF !important;
+    background-color: #ff6b81 !important;
+    padding: 12px 30px !important;
+    border: 2px solid #FFFFFF !important;
+}
+
+.ovoButt:hover{
+    background-color: #000000 !important;
+    color: #FFFFFF !important;
+}
+
+.ovoImg{
+    padding: 50px;
+}
+
+.ovoicondiv{
+    width: 10%;
+    border-radius: 15px;
+    background-color:#ff6b81;
+}
+
+.iconColor{
+    margin-left: 13px;
+    width: 33px;
+    height: 52px;
+    color: #FFFFFF;
+}
+
+
+
+/* achievement  */

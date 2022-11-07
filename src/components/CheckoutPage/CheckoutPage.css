@@ -1,0 +1,62 @@
+/* .billing{
+    background-color: bisque;
+} */
+/* .order{
+    background-color:aqua;
+} */
+
+.required{
+color:#e2401c
+}
+.name{
+    width: 100%;
+    height: 50px;
+    background-color: #f2f2f2;
+    /* border-radius: 0; */
+}
+.header{
+    padding: 20px;
+    background-color: #f2f2f2;
+}
+.checkOutOreder{
+    padding: 20px;
+
+}
+.checkOutPrice{
+    padding: 20px 20px 20px 0;
+}
+
+.PlaceOrder{
+    width: 400px;
+    height: 75px;
+    background-color: black;
+    color: aliceblue;
+}
+.paymentMethod{
+
+    margin-top: 20px;
+    background-color: #f2f2f2;
+    width: 400px;
+}
+.paymentDescription{
+
+    background-color:white;
+    border: 3px solid #f2f2f2;
+    border-top: none;
+    transition: 2.5s ;
+    padding: 10px 10px 10px 0;
+}
+
+.labelTital{
+    margin-left: 10px;
+}
+.payment{
+    margin: 15px;
+}
+
+.ordertotal{
+    background-color: #f2f2f2;
+}
+.shipRow{
+    margin-top: 50px;
+}

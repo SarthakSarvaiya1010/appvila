@@ -1,0 +1,33 @@
+.cartRow {
+    padding-top: 50px;
+}
+h6{
+    padding-top: 10px;
+}
+
+
+.saleTagOn{
+    border-radius: 50%; 
+     background-color: #ff6b81; 
+     /* height: 5px; 
+     width: 5px;  */
+     padding: 1%;
+     /* right: 10px;  */
+     left: 650px;
+     text-align: center;
+    /* display: flex; */
+    position: absolute;
+    /* justify-content: center; */
+    /* align-items: center;  */
+     color: #FFFFFF;
+}
+.prodCate{
+    margin-top: 20px;
+    margin-left: 5px;
+}
+
+
+.divSelect{
+    margin: 10px 0 10px 0; 
+    /* padding: 10pxs; */
+}
