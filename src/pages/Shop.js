@@ -37,9 +37,11 @@ console.log("cartTotal",cartTotal);
         dispatch(GetUser(
             { per_page: perPage, offset }
         ));
-    
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [cureentPage]);
+    
+    
     
     
     const ViewCart = (data) => {

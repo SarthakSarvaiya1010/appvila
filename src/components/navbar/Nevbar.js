@@ -16,7 +16,7 @@ function Nevbar() {
 
   const dispatch = useDispatch();
   let cart_data = useSelector((state) => state?.cart)
-  let itemTotal =cart_data.itemTotal                        /*  useSelector((state) => state?.cart?.itemTotal); */
+  // let itemTotal =cart_data.itemTotal                        /*  useSelector((state) => state?.cart?.itemTotal); */
   let cartTotal =cart_data.cartTotal                        /* useSelector((state) => state?.cart?.cartTotal);*/
 
   // console.log(itemTotal, "item");
@@ -72,8 +72,8 @@ function Nevbar() {
                 </Nav>
                 <Nav>
                   <FaShoppingCart className="navIcone" onClick={handleOpenCart} />
-                  {itemTotal > 0 ?
-                    <Badge className="badge"> {itemTotal}</Badge> : ""}
+                  {cart_data.itemTotal > 0 ?
+                    <Badge className="badge"> {cart_data.itemTotal}</Badge> : ""}
                 </Nav>
               </Nav>
 
@@ -92,7 +92,7 @@ function Nevbar() {
           <div className={isHovering ? 'hovering' : 'noneHovering'}   >
             <div className="cartDiters">
               <Card  >
-                {itemTotal !== 0 ?
+                {cart_data.itemTotal !== 0 ?
                   <FaRegWindowClose onClick={handleColseCart} />
                   : ""}
                 {cart_data.cart.map(
@@ -132,5 +132,7 @@ function Nevbar() {
 }
 
 export default Nevbar;
+
+
 
 

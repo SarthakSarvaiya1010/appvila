@@ -12,9 +12,9 @@ const persistConfig = { // configuration object for redux-persist
 const persistedReducer = persistReducer(persistConfig, RootReducer) // create a persisted reducer
 
 const store = createStore(persistedReducer ,applyMiddleware(thunk));
+// storage.removeItem('persist:root')
 export const  persistor = persistStore(store);
 // localStorage.clear()
 export default store  
   
-
 

@@ -27,6 +27,4 @@ export const Apply_Coupon = (applycoupon) => async (dispatch) => {
     type: APPLY_COUPON,
     payload: applycoupon
   });
-
-
 }

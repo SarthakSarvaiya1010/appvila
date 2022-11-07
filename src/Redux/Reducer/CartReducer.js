@@ -90,23 +90,8 @@ const CartReducer = (state = initialState, action) => {
                 let newState=state;
                 let itemIndex=newState.cart.findIndex(item =>item.id===data.id)
                 newState.cart[itemIndex].quantity=data.qty
-                console.log("newState.cart[itemIndex].quantity", newState.cart[itemIndex].quantity);
-                console.log("newState.cart[itemIndex].price=======>", newState.cart[itemIndex].price);
-                console.log("state.cartTotal=======>", state.cartTotal);
-                console.log("typeof(newState.cart[itemIndex].quantity)=======>",typeof(newState.cart[itemIndex].quantity));
-                console.log("typeof(newState.cart[itemIndex].price)=======>", typeof(newState.cart[itemIndex].price));
-                console.log("typeof(state.cartTotal)=======>",typeof(state.cartTotal));
-                console.log("state.cart.quantity=======>",state.cart.quantity);
-                console.log("state.cart.price=======>",state.cart.price);
-                console.log("typeof(state.cart.quantity)=======>",typeof(state.cart.quantity));
-                console.log("typeof(state.cart.price)=======>",typeof(state.cart.price));
                 
-                // let subtotal=  state.cart.map(subtotal=>subtotal.quantity) 
-                // let subtotal2=state.cart.map(subtotal=>subtotal.price)
-                // console.log("subtotal2",subtotal2);
-                // console.log("subtotal",subtotal);
-                // console.log("state.cartTotal",state.cartTotal);
-
+                
                 // let subtotal3=parseInt(subtotal)*parseInt(subtotal2)
                 let Totals=0
                 newState.cart.forEach(item =>{

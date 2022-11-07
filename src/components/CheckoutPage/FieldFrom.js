@@ -31,7 +31,8 @@ function FieldFrom(props) {
   console.log("State=======>", region);
   console.log("State=======>",test);
   
-    const { handleSubmit , prefix   } = props
+    const { handleSubmit , prefix  ,excludes  } = props
+    console.log("excludes",excludes.includes("first_name"));
   return (
     
         
@@ -40,15 +41,19 @@ function FieldFrom(props) {
         <div className="form-group">
                 <form className="form" form   onSubmit={handleSubmit}   >
                   <Row>
+                    { !excludes.includes("first_name") ? 
                     <Col>
-                      <div className="control ">
+                      <div className="control"  >
                         <label htmlFor='first_name'>First name</label>
                         <abbr className="required" title="required">*</abbr>
                         <div>
-                          <Field className="input name" name={`${prefix}first_name`} component="input" type="text" placeholder="First Name" />
+                          <Field className="input name"  name={`${prefix}first_name`} component="input" type="text" placeholder="First Name" />
                         </div>
                       </div>
                     </Col>
+                    : "" 
+                      } 
+
                     <Col>
                      <div className="control ">
                         <label htmlFor='last_name'>Last Name</label>
