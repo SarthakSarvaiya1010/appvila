@@ -1,4 +1,4 @@
-import { CHECKOUT_GET_DATA,USER_ERROR ,POST_API_DATA  } from "../ActionType/ActionType";
+import { CHECKOUT_GET_DATA,USER_ERROR ,POST_API_DATA   } from "../ActionType/ActionType";
 import api from "../Api";
 
 
@@ -28,17 +28,14 @@ export const PostApiData = (data) => async (dispatch) => {
     });
 
   }
-
-
-
-
-  // console.log( "header", res.headers["X-WP-Total"] );
 } 
-export const CheckoutGetData = (val , product_data) => async (dispatch) => {
+export const CheckoutGetData = (val , product_data , payment_data) => async (dispatch) => {
 
 dispatch({
   type :CHECKOUT_GET_DATA,
   payload_product:product_data,
-  payload : val
+  payload : val,
+  payload_paymet:payment_data
 })
 }
+

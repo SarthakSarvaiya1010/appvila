@@ -90,7 +90,13 @@ const CartReducer = (state = initialState, action) => {
                 let newState=state;
                 let itemIndex=newState.cart.findIndex(item =>item.id===data.id)
                 newState.cart[itemIndex].quantity=data.qty
-                
+                let Itemtotals=0
+                newState.cart.forEach(element => {
+                    Itemtotals = parseInt(element.quantity)+ Itemtotals
+             
+                         });
+                  
+
                 
                 // let subtotal3=parseInt(subtotal)*parseInt(subtotal2)
                 let Totals=0
@@ -98,6 +104,7 @@ const CartReducer = (state = initialState, action) => {
                     Totals +=parseInt(item.quantity)*parseInt(item.price)
                 })
                 newState.cartTotal=Totals
+                newState.itemTotal=Itemtotals
                 return{
                     ...state,
                     // cartTotal:newState.cart[itemIndex].quantity*newState.cart[itemIndex].price +state.cartTotal

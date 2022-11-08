@@ -2,8 +2,8 @@
 import { CHECKOUT_GET_DATA, POST_API_DATA } from "../ActionType/ActionType"
 // import { CHACKOUT_DATA, BILLING_DATA } from "../ActionType/ActionType";
 const initialState = {
-  payment_method: "bacs",
-  payment_method_title: "Direct Bank Transfer",
+  payment_method: "",
+  payment_method_title: "",
   set_paid: true,
   billing: {
     first_name: "",
@@ -40,37 +40,7 @@ const initialState = {
 
 
 
-// const ChackoutdataReducer = (state = initialState, action) => {
-//   // console.log(action);
 
-//   switch (action.type) {
-//     case POST_API_DATA:
-//       return { ...action.payload };
-
-//     case CHECKOUT_GET_DATA:
-//       let billingAdds = {
-//         first_name: action.payload.first_name,
-//         last_name: action.payload.last_name,
-//         address_1: action.payload.address_1,
-//         address_2: "",
-//         city: action.payload.city,
-//         state: "CA",
-//         postcode: action.payload.postcode,
-//         country: "US",
-//         email: action.payload.email,
-//         phone: action.payload.phone,
-//       };
-//       return {
-//         ...state,
-//         billing: billingAdds,
-//       };
-
-//     default:
-//       return state;
-//   }
-// };
-
-// export default ChackoutdataReducer;
 
 const CheckoutDataReducer = (state = initialState, action) => {
   // console.log("CHECKOUT_GET_DATA",action.payload);
@@ -133,12 +103,13 @@ const CheckoutDataReducer = (state = initialState, action) => {
       // console.log("line_items_data===>",product_id_data);
       // console.log("line_items_data===>",quantity_data);
       console.log("line_items_data===>", action.payload_product);
-      console.log("line_items_data===>", state.shipping);
+      console.log("line_items_data===123>", state.payment_method_title);
       return {
         ...state,
         billing: billingAdds,
-        shipping:shippingdata
-
+        shipping:shippingdata,
+        payment_method: action.payload_paymet.id,
+        payment_method_title:action.payload_paymet.method_title
       }
 
 

@@ -11,20 +11,22 @@ import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom"
 
 function Nevbar() {
-
+  
   const navigate = useNavigate()
-
+  
   const dispatch = useDispatch();
   let cart_data = useSelector((state) => state?.cart)
-  // let itemTotal =cart_data.itemTotal                        /*  useSelector((state) => state?.cart?.itemTotal); */
+  let itemTotal =cart_data.itemTotal                        /*  useSelector((state) => state?.cart?.itemTotal); */
   let cartTotal =cart_data.cartTotal                        /* useSelector((state) => state?.cart?.cartTotal);*/
-
+  
   // console.log(itemTotal, "item");
   // console.log(cart_data, " cart_data====>");
-
-
+  
+  
   const [isHovering, setIsHovering] = useState(false);
-
+  
+  // let totalerty =cart_data.cart.map((item)=>item.quantity)
+// console.log("totalerty",totalerty);
 
   const item_delet = (id) => {
     console.log("sarthak", id);
@@ -73,7 +75,7 @@ function Nevbar() {
                 <Nav>
                   <FaShoppingCart className="navIcone" onClick={handleOpenCart} />
                   {cart_data.itemTotal > 0 ?
-                    <Badge className="badge"> {cart_data.itemTotal}</Badge> : ""}
+                    <Badge className="badge"> { itemTotal   }</Badge> : ""}
                 </Nav>
               </Nav>
 

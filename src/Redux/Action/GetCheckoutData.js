@@ -1,4 +1,4 @@
-import { CHECKOUT_DATA, USER_ERROR ,PAYMENT_GATEWAYS } from "../ActionType/ActionType";
+import { CHECKOUT_DATA, USER_ERROR ,PAYMENT_GATEWAYS ,GET_SHIPPING_METHODS , GET_SHIPPING_METHODS_DATA } from "../ActionType/ActionType";
 import api from "../Api";
 
 export const LocationData = () => async (dispatch) => {
@@ -39,3 +39,28 @@ export const LocationData = () => async (dispatch) => {
 
 
  
+export const GetShippingMethods = () => async (dispatch) => {
+  try {
+  const cart_Coupons = await api.get(`shipping/zones/0/methods`)  
+  console.log("GetShippingMethods.data" ,cart_Coupons.data);
+    dispatch({
+      type:GET_SHIPPING_METHODS,
+      payload:cart_Coupons.data
+    }
+  )
+
+   }
+    catch (e) {
+  dispatch({
+    payload: console.log(e),
+    type: USER_ERROR,
+  });
+}
+}
+
+export const GetShippingMethodsData =(values)=> (dispatch)=>{
+  dispatch({
+    payload: values,
+    type:GET_SHIPPING_METHODS_DATA,
+  })
+}

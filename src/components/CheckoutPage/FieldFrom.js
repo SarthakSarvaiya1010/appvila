@@ -10,7 +10,7 @@ import { useState } from "react";
 
 
 function FieldFrom(props) {
-  let Country  = useSelector((state) => state?.LocationData);
+  let Country  = useSelector((state) => state?.GetCheckoutData);
   
   
   const [region, setRegion] = useState(null);

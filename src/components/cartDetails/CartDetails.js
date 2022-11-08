@@ -6,7 +6,7 @@ import { Delete_item, UpdataCartqty } from "../../Redux/Action/CartData";
 import { FaTrash, FaArrowRight } from "react-icons/fa";
 import { BiErrorCircle } from "react-icons/bi";
 import { GetCoupons, Apply_Coupon } from "../../Redux/Action/GetCoupons";
-import { GetShippingMethods ,GetShippingMethodsData } from "../../Redux/Action/GetShippingMethods";
+import { GetShippingMethods ,GetShippingMethodsData } from "../../Redux/Action/GetCheckoutData";
 import { Container, Row, Card, Col, Button, NavLink } from "react-bootstrap";
 
 function CartDetails() {
@@ -23,50 +23,51 @@ function CartDetails() {
   const [wrong, setwrong] = useState(null);
   let Coupons = useSelector((state) => state?.Coupons);
   let cart_data = useSelector((state) => state?.cart);
-  let ShippingData = useSelector((state) => state?.ShippingMethods);
-  let shippingDataGet = useSelector((state) => state?.ShippingMethods.shipping_methods_data);
+  let ShippingData = useSelector((state) => state?.GetCheckoutData);
+  let ShippingData_id = useSelector((state) => state?.GetCheckoutData?.shipping_methods_id);
+  // let shippingDataGet = useSelector((state) => state?.GetCheckoutData?.shipping_methods_data);
 //   const [shippingDataGet , setShippingDataGet]=useState(ShippingData)
 
   let apply_coupon_data = useSelector((state) => state?.Coupons);
   const [test, setTest] = useState(null);
   console.log("ShippingData", ShippingData);
-  console.log("ShippingDataGet", shippingDataGet);
+  // console.log("ShippingDataGet", shippingDataGet);
   console.log("test",test);
 
-
-
+  
+  
   const shipping = (e)=>{
-      console.log("e", e.target.value);
-     let data=ShippingData.shipping_methods.find((item)=>item.id==e.target.value)
+    console.log("e", e.target.value);
+    let data=ShippingData.shipping_methods.find((item)=>item.id==e.target.value)
     console.log("data",ShippingData.shipping_methods);
     console.log("data====>",data);
-     
+    
     if(data.settings.cost){
-        setTest(data.settings.cost.value)
-     }
-    else{
-        setTest(null)
+      setTest(data.settings.cost.value)
     }
-
+    else{
+      setTest(0)
+    }
+    
     dispatch(GetShippingMethodsData(data))
     
   }
-
-
-
-
-
-
+  
+  
+  
+  
+  
+  
   function inputTyp(e) {
     setInput2(e.target.value);
   }
-
+  
   function validate() {
     console.log("input2", input2);
     const myres = Coupons.Cart_Coupons.find((item) => {
       return item.code === input2;
     });
-
+    
     if (myres && !myres.product_ids.length) {
       setAlerted("Success");
       console.log("dispatch(Apply_Coupon(myres))", myres);
@@ -75,7 +76,7 @@ function CartDetails() {
       if (apply_coupon && myres.code === input2) {
         setAlerted("applied");
       }
-
+      
       setApply_coupon(myres);
       return true;
     } else {
@@ -84,7 +85,7 @@ function CartDetails() {
       setwrong(input2);
       setAlerted("wrong");
       window.scroll(0, 0);
-
+      
       if (myres) {
         let sarthak = false;
         // eslint-disable-next-line array-callback-return
@@ -104,43 +105,43 @@ function CartDetails() {
       return false;
     }
   }
-
+  
   const remove = () => {
     setApply_coupon("");
     window.scroll(0, 0);
     dispatch(Apply_Coupon(""));
-
+    
     setInput2("");
     setAlerted("remove");
     console.log("remove Input", input2);
   };
-
+  
   const item_delet = (id, data) => {
     const myres123 = Coupons.Cart_Coupons.find((item) => {
       return item.code === input2;
     });
-
+    
     console.log("myres123", data);
     dispatch(Delete_item(id));
-
+    
     window.scroll(0, 0);
-
+    
     console.log("sarthak", id);
     setwrong(data.name);
     const arry = [];
-
+    
     cart_data.cart.forEach((element) => {
       arry.push(element.id);
     });
-
+    
     setAlerted("delete");
-
+    
     let removeIndex = arry.indexOf(data.id);
     if (removeIndex > -1) {
       arry.splice(removeIndex, 1);
     }
     console.log("removeIndex", arry);
-
+    
     if (myres123) {
       var sarthak = true;
       if (myres123.product_ids.length > 0) {
@@ -162,30 +163,33 @@ function CartDetails() {
       }
     }
   };
-
+  
   const navigate = useNavigate();
-
+  
   const handlestateShop = () => {
     navigate("/shop");
   };
-
+  
   const handlestateCheckout = () => {
     navigate("/checkout");
   };
-
+  
   const dispatch = useDispatch();
-
+  
   const upDateCart = (e, cartIndex) => {
     dispatch(
       UpdataCartqty({
         id: cartIndex,
         qty: e.target.value,
       })
-    );
-  };
-
-  return (
-    <div>
+      );
+    };
+    
+    // ShippingData.shipping_methods.map((item)=>{
+    //   dispatch(GetShippingMethodsData(item))
+    // })
+    return (
+      <div>
       <Container>
         <Row>
           <div className="hedarCart">
@@ -389,16 +393,16 @@ function CartDetails() {
                                 type="radio"
                                 name="flexRadioDefault"
                                 value={item.id}
-                                checked={shippingDataGet.title ==item.title ? shippingDataGet.title : null }
+                                checked={item.id==ShippingData_id }
                                 id={item.title}
                                 onChange={(e) => shipping(e)}
                               />
                               <label className="labelTital" for={item.title}>
                                 {" "}
                                 {item.title}{" "}
-                                {item.settings.cost
+                                {/* {item.settings.cost
                                   ? `:$ ${item.settings.cost.value}.00`
-                                  : null}
+                                  : null} */}
                               </label>
                             </div>
                           );
@@ -413,13 +417,13 @@ function CartDetails() {
                       </div>
                     </Col>
                     <Col>
-                      <div>
+                      {/* <div>
                         {
-                          shippingDataGet && shippingDataGet.settings.cost && apply_coupon_data.Coupons_Amount ? (
+                          test && apply_coupon_data.Coupons_Amount ? (
                             <h4>
                               $
                               {cart_data.cartTotal +
-                                parseInt(shippingDataGet.settings.cost.value) -
+                                parseInt(test)  -
                                 apply_coupon_data.Coupons_Amount}
                               .00
                             </h4>
@@ -434,7 +438,7 @@ function CartDetails() {
                                 </h4>
                               ) :     shippingDataGet.settings.cost ? (
                                 <h4>
-                                  ${cart_data.cartTotal + parseInt(shippingDataGet.settings.cost.value)}
+                                  ${cart_data.cartTotal + parseInt(test)}
                                   .00
                                 </h4>
                               ) : (
@@ -445,31 +449,10 @@ function CartDetails() {
                               )}
                             </div>
                           )
-
-                          //     test ?
-                          //     <h4>
-                          //     ${cart_data.cartTotal +  parseInt(test)  }
-                          //     .00
-                          // </h4>  :
-                          //        apply_coupon && test ?
-
-                          //         <h4>
-                          //         ${cart_data.cartTotal +  parseInt(test) - apply_coupon.amount }
-                          //         .00
-                          //     </h4>:
-                          //          (
-                          //         <h4>
-                          //             ${cart_data.cartTotal}
-                          //             .00
-                          //         </h4>
-                        }
-                        {/*                                                 
-                                                { test && apply_coupon ? <div>sarthak
-
-                                                </div> : <div> {test ? <div> faesf </div> : <div>hello </div>  }   </div>
-
-                                                } */}
-                      </div>
+                          
+                              
+                              }
+                      </div> */}
                     </Col>
                   </Row>
                 </Row>

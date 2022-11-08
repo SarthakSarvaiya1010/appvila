@@ -6,62 +6,55 @@ import { useEffect } from "react";
 import {
   LocationData,
   payment_gateways,
-} from "../../Redux/Action/LocationData";
-import { CheckoutGetData, PostApiData } from "../../Redux/Action/CheckoutData";
-import {  GetShippingMethodsData } from "../../Redux/Action/GetShippingMethods";
-
-// import { useState } from "react";
-// import { Field, reduxForm } from 'redux-form'
+} from "../../Redux/Action/GetCheckoutData";
+import { CheckoutGetData, PostApiData } from "../../Redux/Action/PostCheckoutData";
+import {  GetShippingMethodsData } from "../../Redux/Action/GetCheckoutData";
 import FieldFrom from "./FieldFrom";
 import { useState } from "react";
-// import { MDBTextArea } from "mdb-react-ui-kit";
-// import { BiErrorCircle } from "react-icons/bi"
 
 function CheckoutPage() {
   const [alerted, setAlerted] = useState(false);
-  let ShippingData = useSelector((state) => state?.ShippingMethods);
-  let ShippingDataGet = useSelector(
-    (state) => state?.ShippingMethods.shipping_methods_data
-  );
-
-  let payment = useSelector((state) => state?.LocationData?.payment_gateways);
   const [shipOn, setShipOn] = useState(false);
-  console.log("Country", payment);
+  const [test, setTest] = useState(null);
+  const [paymentCng , setPaymentCng]=useState(null)    
+  let ShippingData_id = useSelector((state) => state?.GetCheckoutData?.shipping_methods_id);
+  let payment = useSelector((state) => state?.GetCheckoutData?.payment_gateways);
   let cart_data = useSelector((state) => state?.cart);
-  // const [apply_coupon, setApply_coupon] = useState(null);
   let apply_coupon = useSelector((state) => state?.Coupons);
+  let ShippingData = useSelector((state) => state?.GetCheckoutData);
   let apply_coupon_data = useSelector((state) => state?.Coupons);
-
-
   let Checkouted = useSelector((state) => state?.CheckoutData);
-  
   let product_data = cart_data.cart;
-  console.log("product_data", product_data);
-  // const [region, setRegion] = useState(null);
-  console.log("apply_Coupons?.", apply_coupon);
-  console.log("CheckoutData===>", Checkouted);
+  
+
+
   const dispatch = useDispatch();
+  
+  
   useEffect(() => {
     dispatch(LocationData());
     dispatch(payment_gateways());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // const submit  = (e) => {
-    //   setRegion(e.target.value)
-    
-    // }
-    
-    const headalstate = () => {
-      // dispatch(PostApiData(Checkouted ))
-      console.log("Checkout submit", Checkouted);
-    };
-    const [test, setTest] = useState(null);
-    
-    const submit = (val) => {
-      // print the form values to the console
-      dispatch(CheckoutGetData(val, product_data));
-      setAlerted(true);
-      if (
+  
+  
+  const headalstate = () => {
+     // dispatch(PostApiData(Checkouted ))
+     console.log("Checkout submit", Checkouted);
+   };
+
+  const headalPaymentState=(e)=>{
+    let setData=payment.find((item)=>item.id===e.target.value)  
+    setPaymentCng(setData)
+  }
+  
+  console.log("setPaymentCng",paymentCng);
+  
+  const submit = (val) => {
+    // print the form values to the console
+    dispatch(CheckoutGetData(val, product_data ,paymentCng ));
+    setAlerted(true);
+    if (
         val.first_name &&
         val.last_name &&
         val.address_1 &&
@@ -81,22 +74,18 @@ function CheckoutPage() {
 
 
       const shipping = (e)=>{
-      console.log("e", e.target.value);
       let data=ShippingData.shipping_methods.find((item)=>item.id==e.target.value)
-     console.log("data",ShippingData.shipping_methods);
-     console.log("data====>",data);
-      
-     if(data.settings.cost){
+       if(data.settings.cost){
          setTest(data.settings.cost.value)
-      }
+        }
      else{
-         setTest(null)
-     }
- 
-     dispatch(GetShippingMethodsData(data))
-    }
-      
-      return (
+         setTest(0)
+        }  
+        dispatch(GetShippingMethodsData(data))
+      }
+    
+    
+    return (
     <div>
       <Container>
         <Row>
@@ -257,13 +246,11 @@ function CheckoutPage() {
                                 type="radio"
                                 name="flexRadioDefault"
                                 checked={
-                                  item.title === ShippingDataGet.title
-                                    ? true
-                                    : null
+                                  item.id ==ShippingData_id
                                 }
                                 value={item.id}
                                 id={item.title}
-                                onChange={(e) =>   shipping(e)   }
+                                onChange={(e) =>shipping(e)  }
                               />
                               <label className="labelTital" for={item.title}>
                                 {" "}
@@ -285,11 +272,11 @@ function CheckoutPage() {
                     </Col>
                     <Col>
                       <div className="checkOutPrice">
-                        {ShippingDataGet && ShippingDataGet.settings.cost &&apply_coupon_data.Coupons_Amount   ?
+                        {test &&apply_coupon_data.Coupons_Amount   ?
                         <div>
                         $
                               {cart_data.cartTotal +
-                                parseInt(ShippingDataGet.settings.cost.value) -
+                                parseInt(test) -
                                 apply_coupon_data.Coupons_Amount}
                               .00
                         </div> :
@@ -301,7 +288,7 @@ function CheckoutPage() {
                                     apply_coupon_data.Coupons_Amount}
                                   .00
                           </div>  :
-                          ShippingDataGet.settings.cost ? <div>${cart_data.cartTotal + parseInt(ShippingDataGet.settings.cost.value)}
+                          test ? <div>${cart_data.cartTotal + parseInt(test)}
                           .00</div> :<div> ${cart_data.cartTotal}
                                   .00</div>}
                         </div>
@@ -316,17 +303,17 @@ function CheckoutPage() {
                       <div className="payment">
                         <input
                           type="radio"
-                          name="flexRadioDefault"
-                          value={item.title}
+                          name="radioDefault123"
+                          value={item.id}
                           id={item.title}
-                          onChange={(e) => setTest(e.target.value)}
+                          onChange={(e) =>headalPaymentState(e)}
                         />
 
                         <label className="labelTital" for={item.title}>
                           {" "}
                           {item.title}
                         </label>
-                        {test === item.title ? (
+                        { paymentCng?.id === item.id ? (
                           <div className="paymentDescription">
                             {item.description}
                           </div>
@@ -351,9 +338,5 @@ function CheckoutPage() {
   );
 }
 
-// CheckoutPage = reduxForm({
-//   // a unique name for the form
-//   form: 'contact'
-// })(CheckoutPage)
 
 export default CheckoutPage;
