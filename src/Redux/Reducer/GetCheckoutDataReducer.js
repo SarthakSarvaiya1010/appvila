@@ -21,7 +21,9 @@ const GetCheckoutDataReducer=( state = initialState , action )=>{
         
         return{
             ...state,
-            payment_gateways:action.payload
+            payment_gateways:action.payload,
+            loading:false   
+        
         }
 
 
@@ -57,7 +59,9 @@ const GetCheckoutDataReducer=( state = initialState , action )=>{
 
             return{
                     ...state,
-                shipping_methods_id:action.payload.id     
+                shipping_methods_id:action.payload   ,
+                loading:false   
+
 
                 }   
         default: 

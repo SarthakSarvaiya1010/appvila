@@ -59,8 +59,13 @@ export const GetShippingMethods = () => async (dispatch) => {
 }
 
 export const GetShippingMethodsData =(values)=> (dispatch)=>{
+  console.log("GetShippingMethodsData========>=============>",values);
+//  if(values.lengh)
   dispatch({
     payload: values,
     type:GET_SHIPPING_METHODS_DATA,
   })
 }
+
+
+

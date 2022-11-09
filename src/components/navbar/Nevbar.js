@@ -80,7 +80,7 @@ function Nevbar() {
               </Nav>
 
               <Nav className="contBtn">
-                <NavLink to="/Shop">
+                <NavLink to="/shop">
                   <Button className="contBtns"> Shop Now</Button>
                 </NavLink>
               </Nav>

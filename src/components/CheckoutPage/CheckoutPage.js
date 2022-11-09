@@ -7,10 +7,13 @@ import {
   LocationData,
   payment_gateways,
 } from "../../Redux/Action/GetCheckoutData";
-import { CheckoutGetData, PostApiData } from "../../Redux/Action/PostCheckoutData";
-import {  GetShippingMethodsData } from "../../Redux/Action/GetCheckoutData";
+import {  PostApiData,CheckoutGetData } from "../../Redux/Action/PostCheckoutData";
+import { GetShippingMethodsData } from "../../Redux/Action/GetCheckoutData";
 import FieldFrom from "./FieldFrom";
 import { useState } from "react";
+import{useNavigate} from "react-router-dom"
+import storage from 'redux-persist/lib/storage'
+
 
 function CheckoutPage() {
   const [alerted, setAlerted] = useState(false);
@@ -27,6 +30,8 @@ function CheckoutPage() {
   let product_data = cart_data.cart;
   
 
+  
+  let  ShippingCost =ShippingData.shipping_methods.find((item)=>item.id===ShippingData_id)
 
   const dispatch = useDispatch();
   
@@ -36,10 +41,15 @@ function CheckoutPage() {
     dispatch(payment_gateways());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  // const navigate=useNavigate()
   
   
   const headalstate = () => {
      // dispatch(PostApiData(Checkouted ))
+      // storage.removeItem('persist:root')
+      // navigate(`/shop`)
+      // window.location.reload();
+
      console.log("Checkout submit", Checkouted);
    };
 
@@ -52,7 +62,7 @@ function CheckoutPage() {
   
   const submit = (val) => {
     // print the form values to the console
-    dispatch(CheckoutGetData(val, product_data ,paymentCng ));
+    dispatch(CheckoutGetData({val:val, product_data:product_data , }));
     setAlerted(true);
     if (
         val.first_name &&
@@ -83,50 +93,62 @@ function CheckoutPage() {
         }  
         dispatch(GetShippingMethodsData(data))
       }
-    
+      console.log("cart_data.cart",cart_data.cart);
+      
+     
+
+
+
+
+
     
     return (
     <div>
+           
       <Container>
+        {cart_data.cart.length >0 ?     
+        <div>
         <Row>
           <div>
             <h1>Checkout</h1>
           </div>
+           
           <div>
             {alerted ? (
               <div className="alert alert-danger" role="alert">
                 {!Checkouted.billing.first_name ? (
                   <div>Billing First name is a required field.</div>
-                ) : null}
+                  ) : null}
                 {!Checkouted.billing.last_name ? (
                   <div>Billing Last name is a required field.</div>
-                ) : null}
+                  ) : null}
                 {!Checkouted.billing.country ? (
                   <div>Billing country is a required field.</div>
-                ) : null}
+                  ) : null}
                 {!Checkouted.billing.address_1 ? (
                   <div>Billing Street address is a required field</div>
-                ) : null}
+                  ) : null}
                 {!Checkouted.billing.city ? (
                   <div>Billing Town / City is a invalid.</div>
-                ) : null}
+                  ) : null}
                 {!Checkouted.billing.state ? (
                   <div>Billing State is a required field.</div>
-                ) : null}
+                  ) : null}
                 {!Checkouted.billing.postcode ? (
                   <div>Billing Postcode/ZIP is a required field</div>
-                ) : null}
+                  ) : null}
                 {!Checkouted.billing.phone ? (
                   <div>Billing Phone is a required field</div>
-                ) : null}
+                  ) : null}
                 {!Checkouted.billing.email ? (
                   <div>Billing Email address is a required field.</div>
-                ) : null}
+                  ) : null}
               </div>
             ) : null}
           </div>
-
+            
           <Col md={6}>
+            
             <div className="billing">
               <div>
                 <h3>Billing details</h3>
@@ -245,9 +267,9 @@ function CheckoutPage() {
                               <input
                                 type="radio"
                                 name="flexRadioDefault"
-                                checked={
-                                  item.id ==ShippingData_id
-                                }
+                                // checked={
+                                //   item.id ==ShippingData_id 
+                                // }
                                 value={item.id}
                                 id={item.title}
                                 onChange={(e) =>shipping(e)  }
@@ -272,11 +294,11 @@ function CheckoutPage() {
                     </Col>
                     <Col>
                       <div className="checkOutPrice">
-                        {test &&apply_coupon_data.Coupons_Amount   ?
+                        {ShippingCost?.settings?.cost &&apply_coupon_data.Coupons_Amount   ?
                         <div>
                         $
                               {cart_data.cartTotal +
-                                parseInt(test) -
+                                parseInt(ShippingCost.settings.cost.value) -
                                 apply_coupon_data.Coupons_Amount}
                               .00
                         </div> :
@@ -288,7 +310,7 @@ function CheckoutPage() {
                                     apply_coupon_data.Coupons_Amount}
                                   .00
                           </div>  :
-                          test ? <div>${cart_data.cartTotal + parseInt(test)}
+                          ShippingCost?.settings?.cost ? <div>${cart_data.cartTotal + parseInt(ShippingCost.settings.cost.value)}
                           .00</div> :<div> ${cart_data.cartTotal}
                                   .00</div>}
                         </div>
@@ -298,13 +320,14 @@ function CheckoutPage() {
                   </Row>
                 </Row>
                 <div className="paymentMethod">
-                  {payment.map((item) => {
+                  {payment.map((item , id) => {
                     return (
                       <div className="payment">
                         <input
                           type="radio"
                           name="radioDefault123"
                           value={item.id}
+                          
                           id={item.title}
                           onChange={(e) =>headalPaymentState(e)}
                         />
@@ -333,6 +356,7 @@ function CheckoutPage() {
             </div>
           </Col>
         </Row>
+          </div>  : null}
       </Container>
     </div>
   );

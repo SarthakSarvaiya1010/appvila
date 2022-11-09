@@ -8,6 +8,8 @@ import "./shop.css"
 import ReactPaginate from 'react-paginate'
 import LoadingSpinner from './LoadingSpinner';
 import { CartData } from '../Redux/Action/CartData';
+
+
 // import {GetCoupons} from "../Redux/Action/GetCoupons"
 
 
@@ -40,6 +42,7 @@ console.log("cartTotal",cartTotal);
         
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [cureentPage]);
+    
     
     
     

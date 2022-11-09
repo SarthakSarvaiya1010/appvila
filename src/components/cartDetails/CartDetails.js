@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -6,31 +7,50 @@ import { Delete_item, UpdataCartqty } from "../../Redux/Action/CartData";
 import { FaTrash, FaArrowRight } from "react-icons/fa";
 import { BiErrorCircle } from "react-icons/bi";
 import { GetCoupons, Apply_Coupon } from "../../Redux/Action/GetCoupons";
-import { GetShippingMethods ,GetShippingMethodsData } from "../../Redux/Action/GetCheckoutData";
+import {  GetShippingMethods,GetShippingMethodsData } from "../../Redux/Action/GetCheckoutData";
 import { Container, Row, Card, Col, Button, NavLink } from "react-bootstrap";
 
-function CartDetails() {
-  useEffect(() => {
-    dispatch(GetCoupons());
-    dispatch(GetShippingMethods());
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+function CartDetails() {
+  
+  
+  
 
   const [apply_coupon, setApply_coupon] = useState(null);
   const [alerted, setAlerted] = useState(null);
   const [input2, setInput2] = useState(null);
   const [wrong, setwrong] = useState(null);
+  const [test, setTest] = useState(null);
+  let shipping_data=useSelector((state)=>state?.CheckoutData)
   let Coupons = useSelector((state) => state?.Coupons);
   let cart_data = useSelector((state) => state?.cart);
   let ShippingData = useSelector((state) => state?.GetCheckoutData);
   let ShippingData_id = useSelector((state) => state?.GetCheckoutData?.shipping_methods_id);
-  // let shippingDataGet = useSelector((state) => state?.GetCheckoutData?.shipping_methods_data);
-//   const [shippingDataGet , setShippingDataGet]=useState(ShippingData)
-
   let apply_coupon_data = useSelector((state) => state?.Coupons);
-  const [test, setTest] = useState(null);
-  console.log("ShippingData", ShippingData);
+  const dispatch = useDispatch();
+  
+  useEffect(() => {
+    dispatch(GetCoupons());
+      dispatch(GetShippingMethods());
+  
+    
+    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [test]);
+  
+  
+  const [shipdata , setShipdata]=useState(ShippingData.shipping_methods[0]) 
+  // let shipdata=ShippingData.shipping_methods[0]
+  useEffect(()=>{
+    console.log("notpossibal");
+
+    dispatch(GetShippingMethodsData(shipdata))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[shipdata])
+
+
+    
+  console.log("ShippingData", shipping_data);
   // console.log("ShippingDataGet", shippingDataGet);
   console.log("test",test);
 
@@ -38,6 +58,7 @@ function CartDetails() {
   
   const shipping = (e)=>{
     console.log("e", e.target.value);
+
     let data=ShippingData.shipping_methods.find((item)=>item.id==e.target.value)
     console.log("data",ShippingData.shipping_methods);
     console.log("data====>",data);
@@ -52,10 +73,14 @@ function CartDetails() {
     dispatch(GetShippingMethodsData(data))
     
   }
-  
-  
-  
-  
+   
+useDispatch(()=>{ 
+  if(ShippingData.shipping_methods.length >0){
+    let dataship=ShippingData.shipping_methods[0]
+    dispatch(GetShippingMethodsData(dataship))
+    console.log(dataship,"ShippingData.shipping_methods");
+  }
+},[])
   
   
   function inputTyp(e) {
@@ -171,10 +196,13 @@ function CartDetails() {
   };
   
   const handlestateCheckout = () => {
-    navigate("/checkout");
+      if(cart_data.cart.length >0){   
+      
+        navigate("/checkout");
+      }
+      
   };
   
-  const dispatch = useDispatch();
   
   const upDateCart = (e, cartIndex) => {
     dispatch(
@@ -185,6 +213,12 @@ function CartDetails() {
       );
     };
     
+
+    
+
+
+    let  ShippingCost =ShippingData.shipping_methods.find((item)=>item===ShippingData_id)
+    console.log("ShippingCost",ShippingData_id);
     // ShippingData.shipping_methods.map((item)=>{
     //   dispatch(GetShippingMethodsData(item))
     // })
@@ -298,14 +332,14 @@ function CartDetails() {
                 );
               })}
               <div>
-                {apply_coupon ? (
+                {apply_coupon_data.Coupons_Code ? (
                   <button
                     type="text"
                     className="couponInp"
                     placeholder="coupon cosde"
                   >
                     {" "}
-                    {apply_coupon.code}{" "}
+                    {apply_coupon_data.Coupons_Code}{" "}
                   </button>
                 ) : (
                   <input
@@ -317,7 +351,7 @@ function CartDetails() {
                     placeholder="coupon cosde"
                   />
                 )}
-                {apply_coupon ? (
+                {apply_coupon_data.Coupons_Code ? (
                   <button
                     className="couponBtn"
                     // style={{ height:"50px" , border:"none" , width:"200px" , marginLeft:"20px" }}
@@ -367,7 +401,7 @@ function CartDetails() {
                         {" "}
                         <div className="CarTtotalsDiv">
                           {/* <h4>Coupon:{Coupons.Cart_Coupons[1].code}</h4> */}
-                          <h4>code{apply_coupon_data.Coupons_Code}</h4>
+                          <h4>Coupons :{apply_coupon_data.Coupons_Code}</h4>
                         </div>
                       </Col>
                       <Col>
@@ -386,28 +420,34 @@ function CartDetails() {
                     </Col>
                     <Col>
                       <div>
-                        {ShippingData.shipping_methods.map((item) => {
+                        {ShippingData.shipping_methods.map((item , id) => {
                           return (
                             <div>
                               <input
                                 type="radio"
                                 name="flexRadioDefault"
                                 value={item.id}
-                                checked={item.id==ShippingData_id }
+                                checked={ ShippingData_id ?  item.id===  ShippingData_id.id ?  ShippingData_id : null : null     }
                                 id={item.title}
                                 onChange={(e) => shipping(e)}
                               />
                               <label className="labelTital" for={item.title}>
                                 {" "}
                                 {item.title}{" "}
-                                {/* {item.settings.cost
+                                {item?.settings?.cost
                                   ? `:$ ${item.settings.cost.value}.00`
-                                  : null} */}
+                                  : null}
                               </label>
                             </div>
                           );
                         })}
                       </div>
+                      {
+                        shipping_data?.billing.address_1.length > 0   ? <div> Shipping to {""}
+                       <p>  {shipping_data?.billing?.address_1} , {shipping_data?.billing?.city} , {shipping_data?.billing?.state} , {shipping_data?.billing?.country}
+                       </p></div> : null
+                      }
+                        
                     </Col>
                   </Row>
                   <Row>
@@ -417,13 +457,13 @@ function CartDetails() {
                       </div>
                     </Col>
                     <Col>
-                      {/* <div>
+                      <div>
                         {
-                          test && apply_coupon_data.Coupons_Amount ? (
+                          ShippingCost?.settings?.cost && apply_coupon_data.Coupons_Amount ? (
                             <h4>
                               $
                               {cart_data.cartTotal +
-                                parseInt(test)  -
+                                parseInt(ShippingCost.settings.cost.value)  -
                                 apply_coupon_data.Coupons_Amount}
                               .00
                             </h4>
@@ -436,9 +476,9 @@ function CartDetails() {
                                     apply_coupon_data.Coupons_Amount}
                                   .00
                                 </h4>
-                              ) :     shippingDataGet.settings.cost ? (
+                              ) :     ShippingCost?.settings?.cost ? (
                                 <h4>
-                                  ${cart_data.cartTotal + parseInt(test)}
+                                  ${cart_data.cartTotal + parseInt(ShippingCost.settings.cost.value)}
                                   .00
                                 </h4>
                               ) : (
@@ -452,7 +492,7 @@ function CartDetails() {
                           
                               
                               }
-                      </div> */}
+                      </div>
                     </Col>
                   </Row>
                 </Row>

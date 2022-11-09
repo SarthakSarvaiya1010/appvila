@@ -55,27 +55,51 @@ const CheckoutDataReducer = (state = initialState, action) => {
 
     case CHECKOUT_GET_DATA:
       let billingAdds = {
-        first_name: action.payload.first_name,
-        last_name: action.payload.last_name,
-        address_1: action.payload.address_1,
+        first_name: action.payload.val.first_name,
+        last_name: action.payload.val.last_name,
+        address_1: action.payload.val.address_1,
         address_2: "",
-        city: action.payload.city,
-        state: action.payload.state,
-        postcode: action.payload.postcode,
-        country: action.payload.country,
-        email: action.payload.email,
-        phone: action.payload.phone,
+        city: action.payload.val.city,
+        state: action.payload.val.state,
+        postcode: action.payload.val.postcode,
+        country: action.payload.val.country,
+        email: action.payload.val.email,
+        phone: action.payload.val.phone,
       };
 
-      let shippingdata = {
-        first_name: action.payload.shipping_first_name,
-        last_name: action.payload.shipping_last_name,
-        address_1: action.payload.shipping_address_1,
+      let shippingdata={
+        first_name: "",
+        last_name: "",
+        address_1: "",
         address_2: "",
-        city: action.payload.shipping_city,
-        state: action.payload.shipping_state,
-        postcode: action.payload.shipping_postcode,
-        country: action.payload.shipping_country,
+        city: "",
+        state: "",
+        postcode: "",
+        country: "",
+      }
+      if(action.payload.val.shipping_first_name){
+       shippingdata = {
+        first_name: action.payload.val.shipping_first_name,
+        last_name: action.payload.val.shipping_last_name,
+        address_1: action.payload.val.shipping_address_1,
+        address_2: "",
+        city: action.payload.val.shipping_city,
+        state: action.payload.val.shipping_state,
+        postcode: action.payload.val.shipping_postcode,
+        country: action.payload.val.shipping_country,
+      }
+        }
+        else{
+          shippingdata = {
+          first_name: action.payload.val.first_name,
+          last_name: action.payload.val.last_name,
+          address_1: action.payload.val.address_1,
+          address_2: "",
+          city: action.payload.val.city,
+          state: action.payload.val.shipping_state,
+          postcode: action.payload.val.postcode,
+          country: action.payload.val.country,
+        }
       }
 
       // let  product_id_data=action.payload_product.map((item)=>item  )
@@ -84,7 +108,7 @@ const CheckoutDataReducer = (state = initialState, action) => {
       // let refed=state
       state.line_items = []
 
-      action.payload_product.map((item) => {
+      action.payload.product_data.map((item) => {
         let line_items_data = {
           product_id: item.id,
           quantity: item.quantity
@@ -92,24 +116,13 @@ const CheckoutDataReducer = (state = initialState, action) => {
         state.line_items.push(line_items_data)
       })
 
-
-
-
-
-
-
-
-
-      // console.log("line_items_data===>",product_id_data);
-      // console.log("line_items_data===>",quantity_data);
-      console.log("line_items_data===>", action.payload_product);
-      console.log("line_items_data===123>", state.payment_method_title);
+      console.log("state", state);
       return {
         ...state,
         billing: billingAdds,
         shipping:shippingdata,
-        payment_method: action.payload_paymet.id,
-        payment_method_title:action.payload_paymet.method_title
+        // payment_method: action.payload.paymentCng.id,
+        // payment_method_title:action.payload.paymentCng.method_title
       }
 
 
@@ -117,5 +130,5 @@ const CheckoutDataReducer = (state = initialState, action) => {
       return state
   }
 }
-// console.log("Userreducer", initialState.itemList );
+
 export default CheckoutDataReducer;
