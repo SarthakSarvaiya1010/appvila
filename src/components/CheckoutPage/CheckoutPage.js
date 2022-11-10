@@ -11,8 +11,8 @@ import {  PostApiData,CheckoutGetData } from "../../Redux/Action/PostCheckoutDat
 import { GetShippingMethodsData } from "../../Redux/Action/GetCheckoutData";
 import FieldFrom from "./FieldFrom";
 import { useState } from "react";
-import{useNavigate} from "react-router-dom"
-import storage from 'redux-persist/lib/storage'
+// import{useNavigate} from "react-router-dom"
+// import storage from 'redux-persist/lib/storage'
 
 
 function CheckoutPage() {
@@ -20,7 +20,7 @@ function CheckoutPage() {
   const [shipOn, setShipOn] = useState(false);
   const [test, setTest] = useState(null);
   const [paymentCng , setPaymentCng]=useState(null)    
-  let ShippingData_id = useSelector((state) => state?.GetCheckoutData?.shipping_methods_id);
+  let ShippingData_id = useSelector((state) => state?.CheckoutData?.shipping_lines);
   let payment = useSelector((state) => state?.GetCheckoutData?.payment_gateways);
   let cart_data = useSelector((state) => state?.cart);
   let apply_coupon = useSelector((state) => state?.Coupons);
@@ -31,7 +31,7 @@ function CheckoutPage() {
   
 
   
-  let  ShippingCost =ShippingData.shipping_methods.find((item)=>item.id===ShippingData_id)
+  let  ShippingCost =ShippingData.shipping_methods.find((item)=>item.method_id===ShippingData_id.method_id)
 
   const dispatch = useDispatch();
   
@@ -56,9 +56,12 @@ function CheckoutPage() {
   const headalPaymentState=(e)=>{
     let setData=payment.find((item)=>item.id===e.target.value)  
     setPaymentCng(setData)
+    // dispatch(CheckoutGetData(setData))
+    
   }
   
   console.log("setPaymentCng",paymentCng);
+  console.log("Checkouted.payment_method",Checkouted.payment_method);
   
   const submit = (val) => {
     // print the form values to the console
@@ -157,7 +160,7 @@ function CheckoutPage() {
               <Row className="shipRow">
                 <Col md={10}>
                   <div style={{ fontSize: "30px" }}>
-                    <label for="Ship"> Ship to a different address? </label>
+                    <label for="Ship"> Ship to a different addre ss? </label>
                   </div>
                 </Col>
                 <Col md={2}>
@@ -176,7 +179,7 @@ function CheckoutPage() {
                   <FieldFrom
                     prefix={"shipping_"}
                     onSubmit={submit}
-                    excludes={["first_name", "email"]}
+                    excludes={["phone", "email", ]}
                   />
                 </div>
               ) : null}
@@ -267,9 +270,10 @@ function CheckoutPage() {
                               <input
                                 type="radio"
                                 name="flexRadioDefault"
-                                // checked={
-                                //   item.id ==ShippingData_id 
-                                // }
+                                checked={
+                                  ShippingData_id?
+                                  item.method_id ===ShippingData_id.method_id 
+                                : null}
                                 value={item.id}
                                 id={item.title}
                                 onChange={(e) =>shipping(e)  }
@@ -327,7 +331,7 @@ function CheckoutPage() {
                           type="radio"
                           name="radioDefault123"
                           value={item.id}
-                          
+                          checked={Checkouted.payment_method && !paymentCng ?    Checkouted.payment_method==item.id ? Checkouted.payment_method : null : paymentCng ?  item.id==paymentCng.id  : null}
                           id={item.title}
                           onChange={(e) =>headalPaymentState(e)}
                         />
@@ -336,11 +340,17 @@ function CheckoutPage() {
                           {" "}
                           {item.title}
                         </label>
-                        { paymentCng?.id === item.id ? (
+  
+
+                        {  paymentCng ?    paymentCng.id === item.id   ? (
                           <div className="paymentDescription">
                             {item.description}
                           </div>
-                        ) : null}
+                        ) : null : Checkouted.payment_method==item.id ?  (
+                          <div className="paymentDescription">
+                            {item.description}
+                          </div>
+                        ) : null} 
                       </div>
                     );
                   })}

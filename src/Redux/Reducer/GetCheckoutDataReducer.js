@@ -3,12 +3,13 @@ const initialState = {
     CheckoutData: [],
     payment_gateways:[],
     shipping_methods: [],
+    shipping_methods_loading: true, 
     shipping_methods_id:null,
-    loading: true, 
+    loading: true
 }
 
 const GetCheckoutDataReducer=( state = initialState , action )=>{
-    console.log("shipping_methods=========>",state.shipping_methods);
+    
     switch(action.type){
         case CHECKOUT_DATA :
             
@@ -36,10 +37,11 @@ const GetCheckoutDataReducer=( state = initialState , action )=>{
             return {
                 ...state,
                 shipping_methods:action.payload,
+                shipping_methods_loading:false,
                 loading:false   
             }
 
-            case GET_SHIPPING_METHODS_DATA:
+            // case GET_SHIPPING_METHODS_DATA:
                 
             // state.shipping_methods.map((item)=>{
             //     if(item.title===action.payload.title){
@@ -55,15 +57,15 @@ const GetCheckoutDataReducer=( state = initialState , action )=>{
 
 
             
-            console.log("total total total" ,state.shipping_methods);
+            // console.log("total total total" ,state.shipping_methods);
 
-            return{
-                    ...state,
-                shipping_methods_id:action.payload   ,
-                loading:false   
+            // return{
+            //         ...state,
+            //     shipping_methods_id:action.payload   ,
+            //     loading:false   
 
 
-                }   
+            //     }   
         default: 
             return state
     }

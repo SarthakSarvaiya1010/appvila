@@ -1,5 +1,5 @@
 /* eslint-disable array-callback-return */
-import { CHECKOUT_GET_DATA, POST_API_DATA } from "../ActionType/ActionType"
+import { CHECKOUT_GET_DATA, POST_API_DATA ,GET_SHIPPING_METHODS , GET_SHIPPING_METHODS_DATA ,PAYMENT_GATEWAYS } from "../ActionType/ActionType"
 // import { CHACKOUT_DATA, BILLING_DATA } from "../ActionType/ActionType";
 const initialState = {
   payment_method: "",
@@ -30,9 +30,9 @@ const initialState = {
   line_items: [],
   shipping_lines: [
     {
-      method_id: "flat_rate",
-      method_title: "Flat Rate",
-      total: "10.00",
+      method_id: "",
+      method_title: "",
+      total: "0",
     },
   ],
 };
@@ -115,15 +115,47 @@ const CheckoutDataReducer = (state = initialState, action) => {
         }
         state.line_items.push(line_items_data)
       })
-
-      console.log("state", state);
+            let payment_method_data= action.payload.paymentCng.id
+            let payment_method_title_data=action.payload.paymentCng.method_title
+            console.log("state145==>", state);
       return {
         ...state,
         billing: billingAdds,
         shipping:shippingdata,
-        // payment_method: action.payload.paymentCng.id,
-        // payment_method_title:action.payload.paymentCng.method_title
+        payment_method: payment_method_data,
+        payment_method_title:payment_method_title_data
       }
+      case GET_SHIPPING_METHODS:
+       let  shipping_lines_data={
+            method_id: action.payload[0].method_id,
+            method_title: action.payload[0].method_title,
+            total: action.payload[0]?.settings?.cost?.value || 0,
+          }
+          // state.shipping_lines.push(shipping_lines_data)
+      return{
+        ...state,
+        shipping_lines:shipping_lines_data
+      }
+
+
+      case   GET_SHIPPING_METHODS_DATA :
+        let  shipping_lines_methods_data={
+          method_id: action.payload.method_id,
+          method_title: action.payload.method_title,
+          total: action.payload?.settings?.cost?.value || 0,
+        }       
+      return{
+        ...state,
+        shipping_lines:shipping_lines_methods_data
+        }
+        case PAYMENT_GATEWAYS :
+          let payment_getway=action.payload[0].id;
+          let payment_gateway_title=action.payload[0].method_title
+        return{
+          ...state,
+          payment_method:  payment_getway,
+          payment_method_title: payment_gateway_title,
+          }
 
 
     default:

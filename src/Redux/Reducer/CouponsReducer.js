@@ -19,8 +19,8 @@ const CouponsReducer=( state = initialState , action )=>{
             console.log("Coupons_Code action.payload",action.payload);
             return{
                 ...state,
-                Coupons_Code:action.payload.code,
-                Coupons_Amount:action.payload.amount,
+                Coupons_Code:action?.payload?.code || null,
+                Coupons_Amount:action?.payload?.amount ||null,
                 loading:false   
                 
             }

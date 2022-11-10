@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-use-before-define */
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -7,8 +8,10 @@ import { Delete_item, UpdataCartqty } from "../../Redux/Action/CartData";
 import { FaTrash, FaArrowRight } from "react-icons/fa";
 import { BiErrorCircle } from "react-icons/bi";
 import { GetCoupons, Apply_Coupon } from "../../Redux/Action/GetCoupons";
-import {  GetShippingMethods,GetShippingMethodsData } from "../../Redux/Action/GetCheckoutData";
+import {  GetShippingMethods,GetShippingMethodsData, LocationData } from "../../Redux/Action/GetCheckoutData";
 import { Container, Row, Card, Col, Button, NavLink } from "react-bootstrap";
+import LoadingSpinner from "../../pages/LoadingSpinner";
+import FieldFrom from "../CheckoutPage/FieldFrom";
 
 
 function CartDetails() {
@@ -25,77 +28,49 @@ function CartDetails() {
   let Coupons = useSelector((state) => state?.Coupons);
   let cart_data = useSelector((state) => state?.cart);
   let ShippingData = useSelector((state) => state?.GetCheckoutData);
-  let ShippingData_id = useSelector((state) => state?.GetCheckoutData?.shipping_methods_id);
+  let ShippingData_id = useSelector((state) => state?.CheckoutData?.shipping_lines);
   let apply_coupon_data = useSelector((state) => state?.Coupons);
+  let loading =useSelector((state)=>state?.GetCheckoutData?.shipping_methods_loading)
+console.log("loading",loading);
+console.log("apply_coupon_data ",apply_coupon);
+
+
   const dispatch = useDispatch();
   
   useEffect(() => {
     dispatch(GetCoupons());
-      dispatch(GetShippingMethods());
-  
-    
-    
+      // dispatch(GetShippingMethods());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [test]);
-  
-  
-  const [shipdata , setShipdata]=useState(ShippingData.shipping_methods[0]) 
-  // let shipdata=ShippingData.shipping_methods[0]
-  useEffect(()=>{
-    console.log("notpossibal");
+  }, []);
 
-    dispatch(GetShippingMethodsData(shipdata))
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[shipdata])
-
-
-    
-  console.log("ShippingData", shipping_data);
-  // console.log("ShippingDataGet", shippingDataGet);
-  console.log("test",test);
-
+  if(loading===true){
+    dispatch(GetShippingMethods());
+  }
   
   
   const shipping = (e)=>{
-    console.log("e", e.target.value);
-
     let data=ShippingData.shipping_methods.find((item)=>item.id==e.target.value)
-    console.log("data",ShippingData.shipping_methods);
-    console.log("data====>",data);
-    
-    if(data.settings.cost){
-      setTest(data.settings.cost.value)
-    }
-    else{
-      setTest(0)
-    }
-    
-    dispatch(GetShippingMethodsData(data))
-    
+   
+
+    dispatch(GetShippingMethodsData(data)) 
   }
    
-useDispatch(()=>{ 
-  if(ShippingData.shipping_methods.length >0){
-    let dataship=ShippingData.shipping_methods[0]
-    dispatch(GetShippingMethodsData(dataship))
-    console.log(dataship,"ShippingData.shipping_methods");
+  const  submit =(vals)=>{
+    console.log("cart pade shpping  data",vals);
   }
-},[])
-  
+
   
   function inputTyp(e) {
     setInput2(e.target.value);
   }
   
   function validate() {
-    console.log("input2", input2);
     const myres = Coupons.Cart_Coupons.find((item) => {
       return item.code === input2;
     });
     
     if (myres && !myres.product_ids.length) {
       setAlerted("Success");
-      console.log("dispatch(Apply_Coupon(myres))", myres);
       dispatch(Apply_Coupon(myres));
       window.scroll(0, 0);
       if (apply_coupon && myres.code === input2) {
@@ -105,14 +80,13 @@ useDispatch(()=>{
       setApply_coupon(myres);
       return true;
     } else {
-      console.log("not done");
       setApply_coupon(null);
       setwrong(input2);
       setAlerted("wrong");
       window.scroll(0, 0);
       
       if (myres) {
-        let sarthak = false;
+        let testmyres = false;
         // eslint-disable-next-line array-callback-return
         cart_data.cart.map((element) => {
           if (myres.product_ids.indexOf(element.id) > -1) {
@@ -120,10 +94,10 @@ useDispatch(()=>{
             setApply_coupon(myres);
             setwrong(null);
             dispatch(Apply_Coupon(myres));
-            sarthak = true;
+            testmyres = true;
           }
         });
-        if (!sarthak) {
+        if (!testmyres) {
           setAlerted("applicable");
         }
       }
@@ -134,11 +108,9 @@ useDispatch(()=>{
   const remove = () => {
     setApply_coupon("");
     window.scroll(0, 0);
-    dispatch(Apply_Coupon(""));
-    
+    dispatch(Apply_Coupon(""));  
     setInput2("");
     setAlerted("remove");
-    console.log("remove Input", input2);
   };
   
   const item_delet = (id, data) => {
@@ -146,44 +118,49 @@ useDispatch(()=>{
       return item.code === input2;
     });
     
-    console.log("myres123", data);
-    dispatch(Delete_item(id));
-    
+    dispatch(Delete_item(id));    
     window.scroll(0, 0);
-    
-    console.log("sarthak", id);
     setwrong(data.name);
     const arry = [];
-    
     cart_data.cart.forEach((element) => {
       arry.push(element.id);
     });
-    
     setAlerted("delete");
-    
     let removeIndex = arry.indexOf(data.id);
     if (removeIndex > -1) {
       arry.splice(removeIndex, 1);
     }
-    console.log("removeIndex", arry);
-    
-    if (myres123) {
-      var sarthak = true;
+      
+
+    if (myres123) 
+    {
+      var testmyres = true;
+      let testcopuns=false
       if (myres123.product_ids.length > 0) {
         // eslint-disable-next-line array-callback-return
         myres123.product_ids.map((name) => {
           if (arry.indexOf(name) > -1) {
             setApply_coupon(myres123);
-            sarthak = false;
+            dispatch(Apply_Coupon(myres123))
+            testmyres = false;
+            testcopuns=true
           } else {
             setApply_coupon("");
+            
           }
         });
-        if (sarthak) {
+        if (testmyres) {
           setAlerted("applicable");
+          
+        }
+
+        if(!testcopuns){
+          dispatch(Apply_Coupon())
+
         }
       } else {
         setApply_coupon(myres123);
+        dispatch(Apply_Coupon(myres123))
         // console.log("thay ja");
       }
     }
@@ -196,9 +173,8 @@ useDispatch(()=>{
   };
   
   const handlestateCheckout = () => {
-      if(cart_data.cart.length >0){   
-      
-        navigate("/checkout");
+      if(cart_data.cart.length >0){     
+       navigate("/checkout");
       }
       
   };
@@ -212,19 +188,15 @@ useDispatch(()=>{
       })
       );
     };
-    
+
+    let  ShippingCost =ShippingData.shipping_methods.find((item)=>item.method_id==ShippingData_id.method_id)
 
     
-
-
-    let  ShippingCost =ShippingData.shipping_methods.find((item)=>item===ShippingData_id)
-    console.log("ShippingCost",ShippingData_id);
-    // ShippingData.shipping_methods.map((item)=>{
-    //   dispatch(GetShippingMethodsData(item))
-    // })
     return (
       <div>
       <Container>
+      {loading===true ?
+                      <LoadingSpinner /> :
         <Row>
           <div className="hedarCart">
             <h1>Cart</h1>
@@ -385,7 +357,8 @@ useDispatch(()=>{
                   <Row>
                     <Col>
                       <div className="CarTtotalsDiv">
-                        <h4>Subtotal</h4>
+                        <h4>Subtotal  </h4>
+                        <h4>{apply_coupon?.code}</h4>
                       </div>
                     </Col>
 
@@ -402,7 +375,7 @@ useDispatch(()=>{
                         <div className="CarTtotalsDiv">
                           {/* <h4>Coupon:{Coupons.Cart_Coupons[1].code}</h4> */}
                           <h4>Coupons :{apply_coupon_data.Coupons_Code}</h4>
-                        </div>
+                         </div>
                       </Col>
                       <Col>
                         <div>
@@ -420,6 +393,8 @@ useDispatch(()=>{
                     </Col>
                     <Col>
                       <div>
+                        
+                         
                         {ShippingData.shipping_methods.map((item , id) => {
                           return (
                             <div>
@@ -427,7 +402,7 @@ useDispatch(()=>{
                                 type="radio"
                                 name="flexRadioDefault"
                                 value={item.id}
-                                checked={ ShippingData_id ?  item.id===  ShippingData_id.id ?  ShippingData_id : null : null     }
+                                checked={ ShippingData_id ?  item.method_id===  ShippingData_id.method_id ?  ShippingData_id : null : id===0     }
                                 id={item.title}
                                 onChange={(e) => shipping(e)}
                               />
@@ -441,13 +416,22 @@ useDispatch(()=>{
                             </div>
                           );
                         })}
+                      
                       </div>
                       {
-                        shipping_data?.billing.address_1.length > 0   ? <div> Shipping to {""}
+                        shipping_data?.billing?.address_1?.length > 0   ? <div> Shipping to {""}
                        <p>  {shipping_data?.billing?.address_1} , {shipping_data?.billing?.city} , {shipping_data?.billing?.state} , {shipping_data?.billing?.country}
                        </p></div> : null
                       }
-                        
+                      <NavLink  onClick={()=>test ? setTest(false) : setTest(true)} >cheng address</NavLink>
+                        {
+                          test ?
+                          <FieldFrom
+                    prefix={"shipping_"}
+                    onSubmit={submit}
+                    excludes={["phone", "email","first_name","last_name" ,"Company_name","address_1" ,"Order_notes" ]}
+                  /> :null
+                        }
                     </Col>
                   </Row>
                   <Row>
@@ -537,9 +521,16 @@ useDispatch(()=>{
             </div>
           )}
         </Row>
+            }
       </Container>
     </div>
   );
 }
 
 export default CartDetails;
+
+
+
+
+
+

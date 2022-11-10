@@ -42,7 +42,7 @@ export const LocationData = () => async (dispatch) => {
 export const GetShippingMethods = () => async (dispatch) => {
   try {
   const cart_Coupons = await api.get(`shipping/zones/0/methods`)  
-  console.log("GetShippingMethods.data" ,cart_Coupons.data);
+  
     dispatch({
       type:GET_SHIPPING_METHODS,
       payload:cart_Coupons.data
