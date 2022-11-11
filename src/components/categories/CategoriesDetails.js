@@ -57,5 +57,4 @@ function CategoriesDetails () {
             </div>
   )
 }
-
 export default CategoriesDetails

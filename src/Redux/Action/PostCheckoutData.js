@@ -31,6 +31,7 @@ export const PostApiData = (data) => async (dispatch) => {
 } 
 
 export const CheckoutGetData = (data) => async (dispatch) => {
+  console.log("abcdefgth",data);
 
   dispatch({
     type :CHECKOUT_GET_DATA,

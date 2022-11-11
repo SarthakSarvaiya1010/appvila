@@ -11,14 +11,17 @@ import { useState } from "react";
 
 function FieldFrom(props) {
   let Country  = useSelector((state) => state?.GetCheckoutData);
+  let Countryisnot  = useSelector((state) => state?.CheckoutData);
   
   
   const [region, setRegion] = useState(null);
   const [ statedata  , setStatedata ]=useState(null)
   const [test , setTest]=useState(null)
   console.log("statedata",statedata);
+
   
-  
+  console.log("Country",Countryisnot?.billing?.city);
+  const [testcity , setTestcity]=useState(Countryisnot?.billing)
   
   // setStatedata(State.states)
   
@@ -48,7 +51,7 @@ function FieldFrom(props) {
                         <label htmlFor='first_name'>First name</label>
                         <abbr className="required" title="required">*</abbr>
                         <div>
-                          <Field className="input name"  name={`${prefix}first_name`} component="input" type="text" placeholder="First Name" />
+                          <Field className="input name"      name={`${prefix}first_name`} component="input" type="text" placeholder="First Name" />
                         </div>
                       </div>
                     </Col>
@@ -95,7 +98,7 @@ function FieldFrom(props) {
                         <label htmlFor='address_1'>Street address</label>
                         <abbr className="required" title="required">*</abbr>
                         <div>
-                          <Field className="input name" name={`${prefix}address_1`} component="input" type="text" placeholder="Street address" />
+                          <Field className="input name" name={`${prefix}address_1`}    component="input" type="text" placeholder="Street address" />
                         </div>
                       </div> }
 
@@ -104,7 +107,7 @@ function FieldFrom(props) {
                         <label htmlFor='city'>Town / City</label>
                         <abbr className="required" title="required">*</abbr>
                         <div>
-                          <Field className="input name" name={`${prefix}city`} component="input" type="text" placeholder="Town / City" />
+                          <Field className="input name" name={`${prefix}city`} defaultValue={testcity} component="input" type="text" placeholder="Town / City" />
                         </div>
                       </div> }
                       {excludes.includes("state") ?
@@ -127,7 +130,7 @@ function FieldFrom(props) {
                         <label htmlFor='postcode'>ZIP Code</label>
                         <abbr className="required" title="required">*</abbr>
                         <div>
-                          <Field className="input name"  name={`${prefix}postcode`} component="input" type="text" placeholder="ZIP Code" />
+                          <Field className="input name"  name={`${prefix}postcode`}    component="input" type="text" placeholder="ZIP Code" />
                         </div>
                       </div> }
                       

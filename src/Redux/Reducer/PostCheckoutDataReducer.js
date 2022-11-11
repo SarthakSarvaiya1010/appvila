@@ -28,12 +28,9 @@ const initialState = {
     country: "",
   },
   line_items: [],
+  coupon_lines:[],
   shipping_lines: [
-    {
-      method_id: "",
-      method_title: "",
-      total: "0",
-    },
+    
   ],
 };
 
@@ -48,12 +45,15 @@ const CheckoutDataReducer = (state = initialState, action) => {
     case POST_API_DATA:
       return {
         ...action.payload,
-
+        
       }
-
-
-
-    case CHECKOUT_GET_DATA:
+      
+      
+      
+      case CHECKOUT_GET_DATA:
+        console.log("CHECKOUT_GET_DATA",action.payload);
+        console.log("log data entry point5==>",state.billing);
+        
       let billingAdds = {
         first_name: action.payload.val.first_name,
         last_name: action.payload.val.last_name,
@@ -67,47 +67,47 @@ const CheckoutDataReducer = (state = initialState, action) => {
         phone: action.payload.val.phone,
       };
 
-      let shippingdata={
-        first_name: "",
-        last_name: "",
-        address_1: "",
+      // let shippingdata={
+      //   first_name: "",
+      //   last_name: "",
+      //   address_1: "",
+      //   address_2: "",
+      //   city: "",
+      //   state: "",
+      //   postcode: "",
+      //   country: "",
+      // }
+      // if(action.payload.val.shipping_first_name){
+      let  shippingdata = {
+         first_name: action.payload.val?.shipping_first_name  ||  action.payload.val.first_name  ,
+         last_name: action.payload.val?.shipping_last_name   ||  action.payload.val.last_name,
+         address_1: action.payload.val?.shipping_address_1 || action.payload.val.address_1,
         address_2: "",
-        city: "",
-        state: "",
-        postcode: "",
-        country: "",
-      }
-      if(action.payload.val.shipping_first_name){
-       shippingdata = {
-        first_name: action.payload.val.shipping_first_name,
-        last_name: action.payload.val.shipping_last_name,
-        address_1: action.payload.val.shipping_address_1,
-        address_2: "",
-        city: action.payload.val.shipping_city,
-        state: action.payload.val.shipping_state,
-        postcode: action.payload.val.shipping_postcode,
-        country: action.payload.val.shipping_country,
-      }
-        }
-        else{
-          shippingdata = {
-          first_name: action.payload.val.first_name,
-          last_name: action.payload.val.last_name,
-          address_1: action.payload.val.address_1,
-          address_2: "",
-          city: action.payload.val.city,
-          state: action.payload.val.shipping_state,
-          postcode: action.payload.val.postcode,
-          country: action.payload.val.country,
-        }
-      }
+        city: action.payload.val?.shipping_city || action.payload.val.city,
+        state: action.payload.val?.shipping_state || action.payload.val.state,
+        postcode: action.payload.val?.shipping_postcode || action.payload.val.postcode,
+        country: action.payload.val?.shipping_country || action.payload.val.country,
+       }
+        // }
+      //   else{
+      //     shippingdata = {
+      //     first_name: action.payload.val.first_name,
+      //     last_name: action.payload.val.last_name,
+      //     address_1: action.payload.val.address_1,
+      //     address_2: "",
+      //     city: action.payload.val.city,
+      //     state: action.payload.val.state,
+      //     postcode: action.payload.val.postcode,
+      //     country: action.payload.val.country,
+      //   }
+      // }
 
       // let  product_id_data=action.payload_product.map((item)=>item  )
       // let  quantity_data=action.payload_product.map((item)=>item.quantity  )
 
       // let refed=state
       state.line_items = []
-
+      
       action.payload.product_data.map((item) => {
         let line_items_data = {
           product_id: item.id,
@@ -115,16 +115,29 @@ const CheckoutDataReducer = (state = initialState, action) => {
         }
         state.line_items.push(line_items_data)
       })
-            let payment_method_data= action.payload.paymentCng.id
-            let payment_method_title_data=action.payload.paymentCng.method_title
-            console.log("state145==>", state);
+
+      let codesf =action.payload.setCoupons    
+      
+       
+        let Coupons_code={
+          code:action.payload.setCoupons.Coupons_Code,
+          discount:action.payload.setCoupons.Coupons_Code
+        }
+        state.coupon_lines.push(Coupons_code) 
+        
+        
+      console.log("codesf",codesf);  
+      // state.coupon_lines.push(codesf)
       return {
         ...state,
-        billing: billingAdds,
+        billing: billingAdds ,
         shipping:shippingdata,
-        payment_method: payment_method_data,
-        payment_method_title:payment_method_title_data
+        payment_method: action?.payload?.paymentCng?.id   || null ,
+        payment_method_title:action?.payload?.paymentCng?.method_title || null,
+        
       }
+
+
       case GET_SHIPPING_METHODS:
        let  shipping_lines_data={
             method_id: action.payload[0].method_id,

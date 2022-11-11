@@ -31,9 +31,10 @@ function CartDetails() {
   let ShippingData_id = useSelector((state) => state?.CheckoutData?.shipping_lines);
   let apply_coupon_data = useSelector((state) => state?.Coupons);
   let loading =useSelector((state)=>state?.GetCheckoutData?.shipping_methods_loading)
-console.log("loading",loading);
-console.log("apply_coupon_data ",apply_coupon);
-
+  console.log("loading",loading);
+  console.log("apply_coupon_data ",apply_coupon);
+  
+   console.log("shipping_data?.billing?.address_1", shipping_data.billing.address_1)
 
   const dispatch = useDispatch();
   
@@ -50,8 +51,6 @@ console.log("apply_coupon_data ",apply_coupon);
   
   const shipping = (e)=>{
     let data=ShippingData.shipping_methods.find((item)=>item.id==e.target.value)
-   
-
     dispatch(GetShippingMethodsData(data)) 
   }
    
@@ -420,9 +419,9 @@ console.log("apply_coupon_data ",apply_coupon);
                       </div>
                       {
                         shipping_data?.billing?.address_1?.length > 0   ? <div> Shipping to {""}
-                       <p>  {shipping_data?.billing?.address_1} , {shipping_data?.billing?.city} , {shipping_data?.billing?.state} , {shipping_data?.billing?.country}
+                       <p>  {shipping_data?.billing?.address_1}  {shipping_data?.billing?.city} , {shipping_data?.billing?.state} , {shipping_data?.billing?.country}
                        </p></div> : null
-                      }
+                        }
                       <NavLink  onClick={()=>test ? setTest(false) : setTest(true)} >cheng address</NavLink>
                         {
                           test ?
