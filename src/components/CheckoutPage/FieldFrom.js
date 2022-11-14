@@ -17,10 +17,10 @@ function FieldFrom(props) {
   const [region, setRegion] = useState(null);
   const [ statedata  , setStatedata ]=useState(null)
   const [test , setTest]=useState(null)
-  console.log("statedata",statedata);
+  
 
   
-  console.log("Country",Countryisnot?.billing?.city);
+  
   const [testcity , setTestcity]=useState(Countryisnot?.billing)
   
   // setStatedata(State.states)
@@ -30,19 +30,16 @@ function FieldFrom(props) {
     let State=Country.CheckoutData.find((item) => item.name === e.target.value)
     setStatedata(State.states)
   }
-  console.log("State=======>", statedata);
-  console.log("State=======>", region);
-  console.log("State=======>",test);
   
     const { handleSubmit , prefix  ,excludes  } = props
-    console.log("excludes",excludes.includes("first_name"));
+    
   return (
     
         
         
         
         <div className="form-group">
-                <form className="form" form   onSubmit={handleSubmit}   >
+                <form className="form" form="true"    onSubmit={handleSubmit}   >
                   <Row>
                     { excludes.includes("first_name") ? 
                      "":
@@ -84,8 +81,8 @@ function FieldFrom(props) {
                         <div>
                           <Field className="select name" name={`${prefix}country`} component="select" value={region}  onChange={(e) => hedalRegion(e)} type="text" >
                             
-                            {   Country.CheckoutData.map((item) =>
-                          <option className="option " name="Company_name" component="option" value={item.name} type="text">{item.name} </option>)
+                            {   Country.CheckoutData.map((item ,id) =>
+                          <option  key={id} className="option " name="Company_name" component="option" value={item.name} type="text">{item.name} </option>)
                            
                           }  
                           </Field>
@@ -107,7 +104,7 @@ function FieldFrom(props) {
                         <label htmlFor='city'>Town / City</label>
                         <abbr className="required" title="required">*</abbr>
                         <div>
-                          <Field className="input name" name={`${prefix}city`} defaultValue={testcity} component="input" type="text" placeholder="Town / City" />
+                          <Field className="input name" name={`${prefix}city`}  component="input" type="text" placeholder="Town / City" />
                         </div>
                       </div> }
                       {excludes.includes("state") ?
@@ -117,10 +114,10 @@ function FieldFrom(props) {
                         <div>
                           <Field className="select name" name={`${prefix}state`} component="select" value={test} onChange={(e)=>setTest(e.target.value)}   type="text" >
                             {statedata && statedata.length > 0 ? 
-                            statedata.map((item) =>
-                          <option className="option " name="State_name" component="option" value={item.name} type="text">{item.name} </option>)
+                            statedata.map((item , id) =>
+                          <option className="option " key={id} name="State_name" component="option" value={item.name} type="text">{item.name} </option>)
                           :
-                              <option className="option " name="State_name" component="option"  type="text"></option>
+                              <option className="option " key="1" name="State_name" component="option"  type="text"></option>
                           }  
                           </Field>
                         </div>

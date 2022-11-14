@@ -58,7 +58,7 @@ function Nevbar() {
           <Row>
             <Navbar className="contner">
               <Nav className="cont-logo">
-                <Nav.Link className="navText">Sarthak</Nav.Link>
+                <NavLink  to="/loginPage"  className="navText">Sarthak</NavLink>
               </Nav>
               <Nav className="cont-text">
                 <NavLink className="navText" to="/"> Home </NavLink>

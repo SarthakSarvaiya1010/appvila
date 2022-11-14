@@ -4,7 +4,7 @@ import api from "../Api";
 
 
 export const PostApiData = (data) => async (dispatch) => {
-  
+  console.log("data",data);
   try {
 
     const res = await api.post( "orders",  data );

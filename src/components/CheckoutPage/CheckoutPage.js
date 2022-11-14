@@ -20,28 +20,48 @@ import { useState } from "react";
 function CheckoutPage() {
   const [alerted, setAlerted] = useState(false);
   const [shipOn, setShipOn] = useState(false);
+  let payment = useSelector(
+    (state) => state?.GetCheckoutData?.payment_gateways
+  );
+  let Checkouted = useSelector((state) => state?.CheckoutData);
+  let datapym= payment.find((item) => item.id === Checkouted.payment_method);
+console.log("datapym",datapym);
+  const [paymentCng, setPaymentCng] = useState(null );
+  useEffect(()=>{
+    setPaymentCng(datapym)
+
+  }, [datapym])
+  console.log("paymentCngdatta",paymentCng);
   const [test, setTest] = useState(null);
-  const [paymentCng, setPaymentCng] = useState(null);
   const[val , setVal]=useState(null)
   let ShippingData_id = useSelector(
     (state) => state?.CheckoutData?.shipping_lines
-  );
-  let payment = useSelector(
-    (state) => state?.GetCheckoutData?.payment_gateways
   );
   let cart_data = useSelector((state) => state?.cart);
   let apply_coupon = useSelector((state) => state?.Coupons);
   let ShippingData = useSelector((state) => state?.GetCheckoutData);
   let apply_coupon_data = useSelector((state) => state?.Coupons);
-  let Checkouted = useSelector((state) => state?.CheckoutData);
   let product_data = cart_data.cart;
-  
+console.log("ShippingData_id",ShippingData_id);
 
-  let ShippingCost = ShippingData.shipping_methods.find(
-    (item) => item.method_id === ShippingData_id.method_id
-  );
+  let ShippingCost  
+  // ShippingData.shipping_methods.find(
+  //   (item) => item.method_id === ShippingData_id[0].method_id
+  // );
 
-  const dispatch = useDispatch();
+  ShippingData_id.map((item)=>
+    ShippingCost=ShippingData.shipping_methods.find(
+      (element) => element.method_id === item.method_id
+    )    
+  )
+
+
+  console.log("ShippingCost",ShippingCost);
+console.log("Checkouted.payment_method",Checkouted.payment_method);
+
+
+
+const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(LocationData());
@@ -51,13 +71,11 @@ function CheckoutPage() {
   // const navigate=useNavigate()
   
   const headalstate = () => {
-    dispatch(CheckoutGetData({ val: val,  product_data: product_data , setCoupons:apply_coupon_data , paymentCng:paymentCng }));
-    // dispatch(PostApiData(Checkouted ))
     // storage.removeItem('persist:root')
     // navigate(`/shop`)
     // window.location.reload();
     console.log("Checkout submit ", Checkouted);
-
+    
     if (
       Checkouted?.billing?.address_1 &&
       Checkouted?.billing?.last_name &&
@@ -77,6 +95,7 @@ function CheckoutPage() {
       Checkouted?.shipping?.state
     ) {
       console.log("Checkout submit AFTER aouth", Checkouted);
+      // dispatch(PostApiData(Checkouted ))
     }
   };
 
@@ -85,12 +104,16 @@ function CheckoutPage() {
     setPaymentCng(setData);
     // dispatch(CheckoutGetData(setData))
   };
-
-  console.log("setPaymentCng", paymentCng);
-  console.log("Checkouted.payment_method", Checkouted.payment_method);
-
+  
+  
+  
   const submit = (val) => {
+    
+console.log("paymentCng",paymentCng);
+
     // print the form values to the console
+    dispatch(CheckoutGetData({ val: val,  product_data: product_data , setCoupons:apply_coupon_data , paymentCng:paymentCng }));
+    
   setVal(val)
     setAlerted(true);
     if (
@@ -111,10 +134,12 @@ function CheckoutPage() {
     return;
   };
 
-  const shipping = (e) => {
+  const shipping = (e) => { 
+    
     let data = ShippingData.shipping_methods.find(
-      (item) => item.id == e.target.value
+      (item) => item.id ===parseInt(e.target.value)  
     );
+    
     if (data.settings.cost) {
       setTest(data.settings.cost.value);
     } else {
@@ -122,7 +147,7 @@ function CheckoutPage() {
     }
     dispatch(GetShippingMethodsData(data));
   };
-  console.log("cart_data.cart", cart_data.cart);
+  
 
   return (
     <div>
@@ -177,7 +202,7 @@ function CheckoutPage() {
                   <Row className="shipRow">
                     <Col md={10}>
                       <div style={{ fontSize: "30px" }}>
-                        <label for="Ship">
+                        <label htmlFor="Ship">
                           {" "}
                           Ship to a different addre ss?{" "}
                         </label>
@@ -226,9 +251,9 @@ function CheckoutPage() {
                     </Row>
                   </div>
                   <div>
-                    {cart_data.cart.map((item) => {
+                    {cart_data.cart.map((item , id)  => {
                       return (
-                        <div>
+                        <div key={id}>
                           <Row className="checkOutOreder">
                             <Col>
                               <div>
@@ -288,31 +313,28 @@ function CheckoutPage() {
                         </Col>
                         <Col>
                           <div>
-                            {ShippingData.shipping_methods.map((item) => {
+                            {ShippingData.shipping_methods.map((item , id) => {
                               return (
-                                <div>
+                                <div key={id}>
+                                  
+                                  <label>
                                   <input
                                     type="radio"
                                     name="flexRadioDefault"
-                                    checked={
-                                      ShippingData_id
-                                        ? item.method_id ===
-                                          ShippingData_id.method_id
-                                        : null
-                                    }
+                                    checked={ ShippingData_id.length >0 ?
+                                      ShippingData_id.findIndex((element)=> item.method_id ===element.method_id) >-1   
+                                       ?    item.method_id :  null  : id===0  }
                                     value={item.id}
                                     id={item.title}
                                     onChange={(e) => shipping(e)}
                                   />
-                                  <label
-                                    className="labelTital"
-                                    for={item.title}
-                                  >
                                     {" "}
                                     {item.title}{" "}
                                     {item.settings.cost
                                       ? `:$ ${item.settings.cost.value}.00`
                                       : null}
+                                          
+
                                   </label>
                                 </div>
                               );
@@ -372,40 +394,35 @@ function CheckoutPage() {
                     <div className="paymentMethod">
                       {payment.map((item, id) => {
                         return (
-                          <div className="payment">
+                          <div className="payment"  key={id}>
+                            <label >
                             <input
                               type="radio"
                               name="radioDefault123"
                               value={item.id}
                               checked={
                                 Checkouted.payment_method && !paymentCng
-                                  ? Checkouted.payment_method == item.id
+                                  ? Checkouted.payment_method === item.id
                                     ? Checkouted.payment_method
                                     : null
                                   : paymentCng
-                                  ? item.id == paymentCng.id
+                                  ? item.id === paymentCng.id
                                   : null
                               }
                               id={item.title}
                               onChange={(e) => headalPaymentState(e)}
                             />
-
-                            <label className="labelTital" for={item.title}>
                               {" "}
                               {item.title}
                             </label>
 
-                            {paymentCng ? (
+                            {paymentCng? 
                               paymentCng.id === item.id ? (
                                 <div className="paymentDescription">
                                   {item.description}
                                 </div>
-                              ) : null
-                            ) : Checkouted.payment_method == item.id ? (
-                              <div className="paymentDescription">
-                                {item.description}
-                              </div>
-                            ) : null}
+                              ): null : null
+                            }
                           </div>
                         );
                       })}
@@ -429,3 +446,4 @@ function CheckoutPage() {
 }
 
 export default CheckoutPage;
+

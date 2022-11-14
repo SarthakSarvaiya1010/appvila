@@ -21,8 +21,9 @@ function CartDetails() {
 
   const [apply_coupon, setApply_coupon] = useState(null);
   const [alerted, setAlerted] = useState(null);
-  const [input2, setInput2] = useState(null);
+  const [input2, setInput2] = useState("");
   const [wrong, setwrong] = useState(null);
+
   const [test, setTest] = useState(null);
   let shipping_data=useSelector((state)=>state?.CheckoutData)
   let Coupons = useSelector((state) => state?.Coupons);
@@ -31,8 +32,13 @@ function CartDetails() {
   let ShippingData_id = useSelector((state) => state?.CheckoutData?.shipping_lines);
   let apply_coupon_data = useSelector((state) => state?.Coupons);
   let loading =useSelector((state)=>state?.GetCheckoutData?.shipping_methods_loading)
+let checked=false
+  ShippingData.shipping_methods.map((item )=>  ShippingData_id.findIndex((element)=> item.method_id ==element.method_id) >-1     ?    checked=true   : console.log("not done is too mush",item.method_id))
+
+  console.log("checked",checked);
+
   console.log("loading",loading);
-  console.log("apply_coupon_data ",apply_coupon);
+  console.log("ShippingData_id in cart ",ShippingData_id);
   
    console.log("shipping_data?.billing?.address_1", shipping_data.billing.address_1)
 
@@ -50,7 +56,7 @@ function CartDetails() {
   
   
   const shipping = (e)=>{
-    let data=ShippingData.shipping_methods.find((item)=>item.id==e.target.value)
+    let data=ShippingData.shipping_methods.find((item)=>item.id=== parseInt(e.target.value))
     dispatch(GetShippingMethodsData(data)) 
   }
    
@@ -87,7 +93,7 @@ function CartDetails() {
       if (myres) {
         let testmyres = false;
         // eslint-disable-next-line array-callback-return
-        cart_data.cart.map((element) => {
+        cart_data.cart.map((element ) => {
           if (myres.product_ids.indexOf(element.id) > -1) {
             setAlerted("Success");
             setApply_coupon(myres);
@@ -188,8 +194,14 @@ function CartDetails() {
       );
     };
 
-    let  ShippingCost =ShippingData.shipping_methods.find((item)=>item.method_id==ShippingData_id.method_id)
-
+    let  ShippingCost 
+    // =ShippingData.shipping_methods.find((item)=>item.method_id==ShippingData_id[0].method_id)
+    ShippingData_id.map((item)=>
+    ShippingCost=ShippingData.shipping_methods.find(
+      (element) => element.method_id === item.method_id
+    )    
+  )
+    console.log(ShippingCost,"ShippingCost");
     
     return (
       <div>
@@ -396,22 +408,27 @@ function CartDetails() {
                          
                         {ShippingData.shipping_methods.map((item , id) => {
                           return (
-                            <div>
+                            <div key={id}>
+                            
+                              <label  >
+                                
                               <input
                                 type="radio"
                                 name="flexRadioDefault"
                                 value={item.id}
-                                checked={ ShippingData_id ?  item.method_id===  ShippingData_id.method_id ?  ShippingData_id : null : id===0     }
+                                checked={ ShippingData_id.length >0 ?
+                                   ShippingData_id.findIndex((element)=> item.method_id ==element.method_id) >-1   
+                                    ?   item.method_id  :  null  : id===0  }
                                 id={item.title}
                                 onChange={(e) => shipping(e)}
                               />
-                              <label className="labelTital" for={item.title}>
-                                {" "}
+                              {" "}
                                 {item.title}{" "}
                                 {item?.settings?.cost
                                   ? `:$ ${item.settings.cost.value}.00`
-                                  : null}
+                                  : null}  
                               </label>
+
                             </div>
                           );
                         })}
@@ -425,7 +442,8 @@ function CartDetails() {
                       <NavLink  onClick={()=>test ? setTest(false) : setTest(true)} >cheng address</NavLink>
                         {
                           test ?
-                          <FieldFrom
+                          <FieldFrom 
+                          
                     prefix={"shipping_"}
                     onSubmit={submit}
                     excludes={["phone", "email","first_name","last_name" ,"Company_name","address_1" ,"Order_notes" ]}

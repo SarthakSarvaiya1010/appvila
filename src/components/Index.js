@@ -11,4 +11,5 @@ export {default as ProductDetails} from "./ProductDetails/ProductDetails"
 export {default as CategoriesDetails } from "./categories/CategoriesDetails"
 export {default as CartDetails } from "./cartDetails/CartDetails"
 export {default as CheckoutPage} from "./CheckoutPage/CheckoutPage"
+export {default as LoginPageDetails} from "./LoginPage/LoginPageDetails"
 

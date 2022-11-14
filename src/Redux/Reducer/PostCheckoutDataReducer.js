@@ -28,10 +28,8 @@ const initialState = {
     country: "",
   },
   line_items: [],
+  shipping_lines: [],
   coupon_lines:[],
-  shipping_lines: [
-    
-  ],
 };
 
 
@@ -116,15 +114,16 @@ const CheckoutDataReducer = (state = initialState, action) => {
         state.line_items.push(line_items_data)
       })
 
+      state.coupon_lines =[] 
       let codesf =action.payload.setCoupons    
       
        
         let Coupons_code={
           code:action.payload.setCoupons.Coupons_Code,
-          discount:action.payload.setCoupons.Coupons_Code
+          discount:action.payload.setCoupons.Coupons_Amount
         }
         state.coupon_lines.push(Coupons_code) 
-        
+        // state.coupon_lines
         
       console.log("codesf",codesf);  
       // state.coupon_lines.push(codesf)
@@ -132,6 +131,7 @@ const CheckoutDataReducer = (state = initialState, action) => {
         ...state,
         billing: billingAdds ,
         shipping:shippingdata,
+        // coupon_lines:Coupons_code,
         payment_method: action?.payload?.paymentCng?.id   || null ,
         payment_method_title:action?.payload?.paymentCng?.method_title || null,
         
@@ -139,27 +139,34 @@ const CheckoutDataReducer = (state = initialState, action) => {
 
 
       case GET_SHIPPING_METHODS:
+       
+        state.shipping_lines=[]
        let  shipping_lines_data={
             method_id: action.payload[0].method_id,
             method_title: action.payload[0].method_title,
-            total: action.payload[0]?.settings?.cost?.value || 0,
+            total: action.payload[0]?.settings?.cost?.value || "0",
           }
-          // state.shipping_lines.push(shipping_lines_data)
+          state.shipping_lines.push(shipping_lines_data)
       return{
         ...state,
-        shipping_lines:shipping_lines_data
+        
       }
 
 
       case   GET_SHIPPING_METHODS_DATA :
+
+        state.shipping_lines =[]
+
         let  shipping_lines_methods_data={
           method_id: action.payload.method_id,
           method_title: action.payload.method_title,
-          total: action.payload?.settings?.cost?.value || 0,
-        }       
+          total: action.payload?.settings?.cost?.value || "0",
+        }  
+        state.shipping_lines.push(shipping_lines_methods_data)
+
       return{
         ...state,
-        shipping_lines:shipping_lines_methods_data
+        // shipping_lines:shipping_lines_methods_data
         }
         case PAYMENT_GATEWAYS :
           let payment_getway=action.payload[0].id;

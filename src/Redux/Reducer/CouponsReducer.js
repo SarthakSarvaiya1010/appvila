@@ -22,7 +22,6 @@ const CouponsReducer=( state = initialState , action )=>{
                 Coupons_Code:action?.payload?.code || null,
                 Coupons_Amount:action?.payload?.amount ||null,
                 loading:false   
-                
             }
 
         default: 
