@@ -1,4 +1,4 @@
-import { CART_DATA, DELETE_ITEM ,UPDATE_CART_QTY  } from "../ActionType/CartActionType"
+import { CART_DATA, DELETE_ITEM ,UPDATE_CART_QTY  } from "../ActionType/ActionType"
 
 
 export const CartData = (data) => async (dispatch) => {

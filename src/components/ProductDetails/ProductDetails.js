@@ -20,32 +20,23 @@ const ProductDetails = () => {
 
   let cart_id = useSelector((state) => state?.product?.Cart_Product)
   const dispatch = useDispatch()
-  // let check =cart_id.variations
-  // console.log("cart_id========>",check );
   const saletag = cart_id.on_sale === true ? <div className="saleTagOn">sale</div> : null;
 
   const params = useParams();
   const { slug } = params
-  console.log("slug=====>", slug);
   const [number, setNumber] = useState(1)
   const [images, setImages] = React.useState(null);
   const [select, setSelect] = useState(null);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { dispatch(GetProductDetails(slug)) }, [])
-  // useEffect(() => { },[])
 
   console.log("cart_id", cart_id);
 
   const handlestate = (item) => {
-    // let categories= cart_id.slug
     navigate(`/products/category${item.id}`)
-    console.log("sarthak", item);
   }
   // setLoading(false)
-
-
-
 
   const ViewCart = () => {
     dispatch(CartData
@@ -53,9 +44,6 @@ const ProductDetails = () => {
         data: cart_id,
         quantity: parseInt(number)
       }));
-
-    console.log('hello=====>', number);
-
   }
 
   const attributesed = (e) => {
@@ -83,10 +71,8 @@ const ProductDetails = () => {
 
   }, [cart_id.images]);
 
-  // console.log("cart_id.images.length",cart_id.images.length);
   return (
     <div>
-      {/* {loader ===true ? <div>  <LoadingSpinner /> </div> :  */}
       <div>
         <Container >
           <Row className='cartRow' >
@@ -96,10 +82,7 @@ const ProductDetails = () => {
                 {saletag}
                 {images ? <ImageGallery showFullscreenButton={false} showPlayButton={false} disableSwipe={false} swipeThreshold={300} items={images} /> :
                   <img src={cart_id.images ? cart_id?.images[0]?.src : placeholder} alt={cart_id.slug} style={{ width: "25rem" }} ></img>}
-
               </div>
-
-              {/* { cart_id.images ? <ImageGallery items={images} /> : null}      */}
             </Col>
             <Col md={8}  >
               <Card.Text>{cart_id.name} </Card.Text>
@@ -107,10 +90,6 @@ const ProductDetails = () => {
               {cart_id.type === "variable" ?
 
                 <div>
-                  {/* <h4>Size</h4> */}
-                  {/* <select className='divSelect' value={select} onChange={attributes}> */}
-                  {/* <option >Choose an option</option> */}
-
                   {cart_id.attributes.filter(names => names.name === "Material").map((attributes, id) => (
                     <div key={id}>
                       <h6>{attributes.name}</h6>
@@ -136,24 +115,8 @@ const ProductDetails = () => {
                         ))
                         }
                       </select>
-
-
-
-                      {/* {   attri.attributes.filter(names=>names.name==="Size").filter(dived=>dived.option==="m").map((name)=>(
-                  <div>
-                    <h2>{name.name}</h2>          
-                    <select>
-                <option>{name.option}</option>
-                </select>
-                </div>  
-                   )) } */}
-
-
                     </div>
                   ))}
-
-
-                  {/* </select> */}
                 </div>
                 : null}
               <input type="number" min={number} value={number} onChange={(e) => setNumber(e.target.value)} style={{ width: "54px", height: "35px" }} />
@@ -163,8 +126,6 @@ const ProductDetails = () => {
                 <div style={{ display: "flex" }}> <Card.Text className='prodCate' >Category : </Card.Text>
                 {cart_id.categories.map((item)=>
                  <Nav.Link className='prodCate' onClick={() => handlestate(item)}    > {item.slug}</Nav.Link> )}  </div> : null}
-
-                 
             </Col>
           </Row>
         </Container>
@@ -173,19 +134,15 @@ const ProductDetails = () => {
             <Row className='cartRow'>
               <Col md={3} >
                 <Nav.Link eventKey="first" >Description </Nav.Link>
-
                 <Nav.Link eventKey="second"> Reviews   </Nav.Link>
-
               </Col>
               <Col md={1}>
-
                 <Tab.Pane eventKey="first">
                   <FaAngleRight />
                 </Tab.Pane>
                 <Tab.Pane eventKey="second">
                   <FaAngleRight />
                 </Tab.Pane>
-
               </Col>
               <Col md={8}>
                 <Tab.Content>

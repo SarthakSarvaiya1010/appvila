@@ -198,7 +198,7 @@ let checked=false
     // =ShippingData.shipping_methods.find((item)=>item.method_id==ShippingData_id[0].method_id)
     ShippingData_id.map((item)=>
     ShippingCost=ShippingData.shipping_methods.find(
-      (element) => element.method_id === item.method_id
+      (element) => element.method_id === item.method_id 
     )    
   )
     console.log(ShippingCost,"ShippingCost");
@@ -539,6 +539,7 @@ let checked=false
           )}
         </Row>
             }
+          
       </Container>
     </div>
   );

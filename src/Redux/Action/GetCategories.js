@@ -12,9 +12,6 @@ export const GetCategories = (id) => async (dispatch) => {
       }
     )
 
-  
-    
-    
   } catch (e) {
     dispatch({
       payload: console.log(e),

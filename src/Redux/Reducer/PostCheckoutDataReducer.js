@@ -29,7 +29,8 @@ const initialState = {
   },
   line_items: [],
   shipping_lines: [],
-  coupon_lines:[],
+  coupon_lines:[] ,
+  Order_received_data:[]
 };
 
 
@@ -37,12 +38,14 @@ const initialState = {
 
 
 
-const CheckoutDataReducer = (state = initialState, action) => {
-  // console.log("CHECKOUT_GET_DATA",action.payload);
+const CheckoutDataReducer = (state = initialState,  action) => {
+  // console.log("CHECKOUT_GET_DATA",state1);
   switch (action.type) {
     case POST_API_DATA:
       return {
-        ...action.payload,
+        ...state,
+        Order_received_data:action.payload,
+
         
       }
       
@@ -115,12 +118,14 @@ const CheckoutDataReducer = (state = initialState, action) => {
       })
 
       state.coupon_lines =[] 
-      let codesf =action.payload.setCoupons    
-      
+
+      let codesf =action.payload?.setCoupons || null 
+      console.log("action.payload?.setCoupons",action.payload?.setCoupons);
        
         let Coupons_code={
-          code:action.payload.setCoupons.Coupons_Code,
-          discount:action.payload.setCoupons.Coupons_Amount
+          code:action.payload?.setCoupons?.Coupons_Code ?  action.payload?.setCoupons?.Coupons_Code   : '' ,
+          discount:action?.payload?.setCoupons?.Coupons_Amount ? action?.payload?.setCoupons?.Coupons_Amount :  '' 
+       
         }
         state.coupon_lines.push(Coupons_code) 
         // state.coupon_lines

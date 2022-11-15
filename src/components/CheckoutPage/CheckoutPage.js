@@ -14,6 +14,7 @@ import {
 import { GetShippingMethodsData } from "../../Redux/Action/GetCheckoutData";
 import FieldFrom from "./FieldFrom";
 import { useState } from "react";
+import LoadingSpinner from "../../pages/LoadingSpinner";
 // import{useNavigate} from "react-router-dom"
 // import storage from 'redux-persist/lib/storage'
 
@@ -23,15 +24,16 @@ function CheckoutPage() {
   let payment = useSelector(
     (state) => state?.GetCheckoutData?.payment_gateways
   );
+  let payment_loadind = useSelector((state) => state?.GetCheckoutData?.payment_gateways_loading);
   let Checkouted = useSelector((state) => state?.CheckoutData);
   let datapym= payment.find((item) => item.id === Checkouted.payment_method);
-console.log("datapym",datapym);
+
   const [paymentCng, setPaymentCng] = useState(null );
   useEffect(()=>{
     setPaymentCng(datapym)
 
   }, [datapym])
-  console.log("paymentCngdatta",paymentCng);
+  
   const [test, setTest] = useState(null);
   const[val , setVal]=useState(null)
   let ShippingData_id = useSelector(
@@ -42,7 +44,7 @@ console.log("datapym",datapym);
   let ShippingData = useSelector((state) => state?.GetCheckoutData);
   let apply_coupon_data = useSelector((state) => state?.Coupons);
   let product_data = cart_data.cart;
-console.log("ShippingData_id",ShippingData_id);
+
 
   let ShippingCost  
   // ShippingData.shipping_methods.find(
@@ -54,10 +56,6 @@ console.log("ShippingData_id",ShippingData_id);
       (element) => element.method_id === item.method_id
     )    
   )
-
-
-  console.log("ShippingCost",ShippingCost);
-console.log("Checkouted.payment_method",Checkouted.payment_method);
 
 
 
@@ -95,22 +93,19 @@ const dispatch = useDispatch();
       Checkouted?.shipping?.state
     ) {
       console.log("Checkout submit AFTER aouth", Checkouted);
-      // dispatch(PostApiData(Checkouted ))
+      dispatch(PostApiData(Checkouted ))
     }
   };
 
   const headalPaymentState = (e) => {
     let setData = payment.find((item) => item.id === e.target.value);
     setPaymentCng(setData);
-    // dispatch(CheckoutGetData(setData))
+    dispatch(CheckoutGetData(setData))
   };
   
   
   
   const submit = (val) => {
-    
-console.log("paymentCng",paymentCng);
-
     // print the form values to the console
     dispatch(CheckoutGetData({ val: val,  product_data: product_data , setCoupons:apply_coupon_data , paymentCng:paymentCng }));
     
@@ -152,7 +147,7 @@ console.log("paymentCng",paymentCng);
   return (
     <div>
       <Container>
-        {cart_data.cart.length > 0 ? (
+        {!payment_loadind ===true ? (
           <div>
             <Row>
               <div>
@@ -439,7 +434,7 @@ console.log("paymentCng",paymentCng);
               </Col>
             </Row>
           </div>
-        ) : null}
+        ) : <div><LoadingSpinner />  </div>}
       </Container>
     </div>
   );

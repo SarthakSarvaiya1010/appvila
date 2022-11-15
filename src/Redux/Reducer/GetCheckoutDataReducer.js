@@ -2,6 +2,7 @@ import { CHECKOUT_DATA , PAYMENT_GATEWAYS , GET_SHIPPING_METHODS , GET_SHIPPING_
 const initialState = {
     CheckoutData: [],
     payment_gateways:[],
+    payment_gateways_loading:true,
     shipping_methods: [],
     shipping_methods_loading: true, 
     shipping_methods_id:null,
@@ -23,6 +24,7 @@ const GetCheckoutDataReducer=( state = initialState , action )=>{
         return{
             ...state,
             payment_gateways:action.payload,
+            payment_gateways_loading:false,
             loading:false   
         
         }
