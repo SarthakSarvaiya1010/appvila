@@ -15,6 +15,7 @@ import { GetShippingMethodsData } from "../../Redux/Action/GetCheckoutData";
 import FieldFrom from "./FieldFrom";
 import { useState } from "react";
 import LoadingSpinner from "../../pages/LoadingSpinner";
+import { useNavigate } from "react-router-dom";
 // import{useNavigate} from "react-router-dom"
 // import storage from 'redux-persist/lib/storage'
 
@@ -60,6 +61,8 @@ function CheckoutPage() {
 
 
 const dispatch = useDispatch();
+const navigate = useNavigate();
+
 
   useEffect(() => {
     dispatch(LocationData());
@@ -93,7 +96,8 @@ const dispatch = useDispatch();
       Checkouted?.shipping?.state
     ) {
       console.log("Checkout submit AFTER aouth", Checkouted);
-      dispatch(PostApiData(Checkouted ))
+      // dispatch(PostApiData(Checkouted ))
+      navigate("/receivedOrder")
     }
   };
 
@@ -101,29 +105,56 @@ const dispatch = useDispatch();
     let setData = payment.find((item) => item.id === e.target.value);
     setPaymentCng(setData);
     dispatch(CheckoutGetData(setData))
+
   };
+
+  console.log("Alerted",alerted);
   
-  
+
+
   
   const submit = (val) => {
     // print the form values to the console
     dispatch(CheckoutGetData({ val: val,  product_data: product_data , setCoupons:apply_coupon_data , paymentCng:paymentCng }));
     
   setVal(val)
-    setAlerted(true);
-    if (
-      val.first_name &&
-      val.last_name &&
-      val.address_1 &&
-      val.city &&
-      val.postcode &&
-      val.phone &&
-      val.email &&
-      val.country &&
-      val.state
-    ) {
-      setAlerted(false);
-    }
+  // if(shipOn )
+  // { 
+      setAlerted({
+        first_name:val.first_name,
+        last_name:val.last_name ,
+        address_1:val.address_1, 
+        city:val.city ,
+        postcode:val.postcode,
+        phone:val.phone,
+        email:val.email,
+        country:val.country,
+        state:val.state,
+        shipping_first_name:val.shipping_first_name,
+        shipping_last_name:val.shipping_last_name,
+        shipping_postcode:val.shipping_postcode,
+        shipping_state:val.shipping_state,
+        shipping_address_1:val.shipping_address_1,
+        shipping_country:val.shipping_country,
+        shipping_city:val.shipping_city
+      
+      });
+    // }
+// else{
+  
+//   setAlerted({
+//     first_name:val.first_name,
+//     last_name:val.last_name ,
+//     address_1:val.address_1, 
+//     city:val.city ,
+//     postcode:val.postcode,
+//     phone:val.phone,
+//     email:val.email,
+//     country:val.country,
+//     state:val.state
+//   });
+// }
+
 
     console.log("let seee what's  happedin log ", val);
     return;
@@ -143,7 +174,9 @@ const dispatch = useDispatch();
     dispatch(GetShippingMethodsData(data));
   };
   
-
+const emailId =(values)=>{
+  console.log("emailnoytdone",values);
+}
   return (
     <div>
       <Container>
@@ -155,37 +188,97 @@ const dispatch = useDispatch();
               </div>
 
               <div>
-                {alerted ? (
+                {alerted ?
+                <div>
+                {alerted && shipOn && val ? (
                   <div className="alert alert-danger" role="alert">
-                    {!Checkouted.billing.first_name ? (
+                    {!alerted.first_name ? (
                       <div>Billing First name is a required field.</div>
                     ) : null}
-                    {!Checkouted.billing.last_name ? (
+                    {!alerted.last_name ? (
                       <div>Billing Last name is a required field.</div>
                     ) : null}
-                    {!Checkouted.billing.country ? (
+                    {!alerted.country ? (
                       <div>Billing country is a required field.</div>
                     ) : null}
-                    {!Checkouted.billing.address_1 ? (
+                    {!alerted.address_1 ? (
                       <div>Billing Street address is a required field</div>
                     ) : null}
-                    {!Checkouted.billing.city ? (
+                    {!alerted.city ? (
                       <div>Billing Town / City is a invalid.</div>
                     ) : null}
-                    {!Checkouted.billing.state ? (
+                    {!alerted.state ? (
                       <div>Billing State is a required field.</div>
                     ) : null}
-                    {!Checkouted.billing.postcode ? (
+                    {!alerted.postcode ? (
                       <div>Billing Postcode/ZIP is a required field</div>
                     ) : null}
-                    {!Checkouted.billing.phone ? (
+                    {!alerted.phone ? (
                       <div>Billing Phone is a required field</div>
                     ) : null}
-                    {!Checkouted.billing.email ? (
+                    {!alerted.email ? (
                       <div>Billing Email address is a required field.</div>
+                    ) :null }
+                    {!alerted.shipping_first_name ? (
+                      <div>Shipping First name is a required field.</div>
+                    ) : null}
+                    {!alerted.shipping_last_name ? (
+                      <div>Shipping Last name is a required field.</div>
+                    ) : null}
+                    {!alerted.shipping_country ? (
+                      <div>Shipping country is a required field.</div>
+                    ) : null}
+                    {!alerted.shipping_address_1 ? (
+                      <div>Shipping Street address is a required field.</div>
+                    ) : null}
+                    {!alerted.shipping_city ? (
+                      <div>Shipping Town / City is a required field.</div>
+                    ) : null}
+                    {!alerted.shipping_city ? (
+                      <div>Shipping Town / City is a required field.</div>
+                    ) : null}
+                    {!alerted.shipping_state ? (
+                      <div>Shipping State is a required field.</div>
+                    ) : null}
+                    {!alerted.shipping_postcode ? (
+                      <div>Shipping PIN Code is a required field.</div>
                     ) : null}
                   </div>
-                ) : null}
+                ) :
+                (
+                  <div className="alert alert-danger" role="alert">
+                    {!alerted.first_name ? (
+                      <div>Billing First name is a required field.</div>
+                    ) : null}
+                    {!alerted.last_name ? (
+                      <div>Billing Last name is a required field.</div>
+                    ) : null}
+                    {!alerted.country ? (
+                      <div>Billing country is a required field.</div>
+                    ) : null}
+                    {!alerted.address_1 ? (
+                      <div>Billing Street address is a required field</div>
+                    ) : null}
+                    {!alerted.city ? (
+                      <div>Billing Town / City is a invalid.</div>
+                    ) : null}
+                    {!alerted.state ? (
+                      <div>Billing State is a required field.</div>
+                    ) : null}
+                    {!alerted.postcode ? (
+                      <div>Billing Postcode/ZIP is a required field</div>
+                    ) : null}
+                    {!alerted.phone ? (
+                      <div>Billing Phone is a required field</div>
+                    ) : null}
+                    {!alerted.email ? (
+                      <div>Billing Email address is a required field.</div>
+                    ) :null }
+                  </div>
+                )
+                 }
+                 </div>
+                 : null }
               </div>
 
               <Col md={6}>
@@ -193,13 +286,13 @@ const dispatch = useDispatch();
                   <div>
                     <h3>Billing details</h3>
                   </div>
-                  <FieldFrom onSubmit={submit} prefix={""} excludes={""} />
+                  <FieldFrom onSubmit={submit} prefix={""} excludes={""} emailID={emailId}   />
                   <Row className="shipRow">
                     <Col md={10}>
                       <div style={{ fontSize: "30px" }}>
                         <label htmlFor="Ship">
                           {" "}
-                          Ship to a different addre ss?{" "}
+                          Ship to a different address?{" "}
                         </label>
                       </div>
                     </Col>
@@ -422,12 +515,9 @@ const dispatch = useDispatch();
                         );
                       })}
                     </div>
-                    {/* <div>
-      <MDBRadio name='flexRadioDefault' id='flexRadioDefault1' label='Default radio' />
-      <MDBRadio name='flexRadioDefault' id='flexRadioDefault2' label='Default checked radio' defaultChecked />
-    </div> */}
+                  
                   </div>
-                  <button className="PlaceOrder" onClick={headalstate}>
+                  <button disabled={true} className="PlaceOrder" onClick={headalstate}>
                     Place order
                   </button>
                 </div>

@@ -5,23 +5,7 @@ import "./LoginPageDetails.css"
 function LoginPageDetails() {
  
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // toast set data
-
-
 // let closeIcon
 // let progress
 // const button   = document.querySelector("button"),
@@ -107,6 +91,10 @@ timer2 = setTimeout(() => {
 <button  onClick={()=>bttn()} >Show Toast</button>
 </div>
 </div>
+
+
+
+
 </div>
   )
 }

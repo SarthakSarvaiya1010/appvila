@@ -3,6 +3,8 @@ import { Field, reduxForm  } from 'redux-form'
 import { Col,  Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useState } from "react";
+
+
 // import { clear } from '@testing-library/user-event/dist/clear';
 
 
@@ -11,18 +13,12 @@ import { useState } from "react";
 
 function FieldFrom(props) {
   let Country  = useSelector((state) => state?.GetCheckoutData);
-  let Countryisnot  = useSelector((state) => state?.CheckoutData);
   
-  
+      
   const [region, setRegion] = useState(null);
   const [ statedata  , setStatedata ]=useState(null)
   const [test , setTest]=useState(null)
-  
-
-  
-  
-  const [testcity , setTestcity]=useState(Countryisnot?.billing)
-  
+    
   // setStatedata(State.states)
   
   const hedalRegion  = (e) => {
@@ -31,7 +27,14 @@ function FieldFrom(props) {
     setStatedata(State.states)
   }
   
-    const { handleSubmit , prefix  ,excludes  } = props
+// const emailId =(data)=>{
+//   return( data && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(data) ?
+ 
+//   "invalid":
+//   undefined
+// )}
+
+    const { handleSubmit , prefix  ,excludes   } = props
     
   return (
     
@@ -144,7 +147,7 @@ function FieldFrom(props) {
                         <label htmlFor='email'>Email address</label>
                         <abbr className="required" title="required">*</abbr>
                         <div>
-                          <Field className="input name" name={`${prefix}email`} component="input" type="text" placeholder="Email address" />
+                          <Field className="input name"           name={`${prefix}email`} component="input" type="text" placeholder="Email address" />
                         </div>
                       </div>}
                     {      excludes.includes("Order_notes") ?
@@ -160,9 +163,11 @@ function FieldFrom(props) {
                         </div>
                       </div>
                       </div> }
+      
       <button type="submit"  style={{display:"none"}}>Submit</button>    
           
                 </form>   
+                
       </div>
   )
 }

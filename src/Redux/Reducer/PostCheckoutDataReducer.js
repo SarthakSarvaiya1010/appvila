@@ -30,7 +30,284 @@ const initialState = {
   line_items: [],
   shipping_lines: [],
   coupon_lines:[] ,
-  Order_received_data:[]
+  Order_received_data:
+    {data:{        "id": 116,
+    "parent_id": 0,
+    "status": "pending",
+    "currency": "USD",
+    "version": "6.9.4",
+    "prices_include_tax": false,
+    "date_created": "2022-11-15T13:41:52",
+    "date_modified": "2022-11-15T13:41:53",
+    "discount_total": "10.00",
+    "discount_tax": "0.00",
+    "shipping_total": "0.00",
+    "shipping_tax": "0.00",
+    "cart_tax": "0.00",
+    "total": "71.00",
+    "total_tax": "0.00",
+    "customer_id": 0,
+    "order_key": "wc_order_Ton9cFDivCYOK",
+    "billing": {
+        "first_name": "amisha",
+        "last_name": "patel",
+        "company": "",
+        "address_1": "a-30,harijipark",
+        "address_2": "",
+        "city": "Ahmedabad",
+        "state": "Gujarat",
+        "postcode": "382345",
+        "country": "India",
+        "email": "teest@gmail.com",
+        "phone": "1234567890"
+    },
+    "shipping": {
+        "first_name": "amisha",
+        "last_name": "patel",
+        "company": "",
+        "address_1": "a-30,harijipark",
+        "address_2": "",
+        "city": "Ahmedabad",
+        "state": "Gujarat",
+        "postcode": "382345",
+        "country": "India",
+        "phone": ""
+    },
+    "payment_method": "bacs",
+    "payment_method_title": "Direct bank transfer",
+    "transaction_id": "",
+    "customer_ip_address": "",
+    "customer_user_agent": "",
+    "created_via": "rest-api",
+    "customer_note": "",
+    "date_completed": null,
+    "date_paid": null,
+    "cart_hash": "",
+    "number": "116",
+    "meta_data": [],
+    "line_items": [
+        {
+            "id": 202,
+            "name": "Vneck Tshirt",
+            "product_id": 40,
+            "variation_id": 0,
+            "quantity": 1,
+            "tax_class": "",
+            "subtotal": "18.00",
+            "subtotal_tax": "0.00",
+            "total": "15.50",
+            "total_tax": "0.00",
+            "taxes": [],
+            "meta_data": [],
+            "sku": "",
+            "price": 15.5,
+            "image": {
+                "id": "22",
+                "src": "http://php74dev.com/wordpress/wp-content/uploads/2022/09/vneck-tee.jpg"
+            },
+            "parent_name": null
+        },
+        {
+            "id": 203,
+            "name": "Tshirt",
+            "product_id": 39,
+            "variation_id": 0,
+            "quantity": 1,
+            "tax_class": "",
+            "subtotal": "18.00",
+            "subtotal_tax": "0.00",
+            "total": "15.50",
+            "total_tax": "0.00",
+            "taxes": [],
+            "meta_data": [],
+            "sku": "",
+            "price": 15.5,
+            "image": {
+                "id": "21",
+                "src": "http://php74dev.com/wordpress/wp-content/uploads/2022/09/tshirt.jpg"
+            },
+            "parent_name": null
+        },
+        {
+            "id": 204,
+            "name": "Polo",
+            "product_id": 38,
+            "variation_id": 0,
+            "quantity": 1,
+            "tax_class": "",
+            "subtotal": "20.00",
+            "subtotal_tax": "0.00",
+            "total": "17.50",
+            "total_tax": "0.00",
+            "taxes": [],
+            "meta_data": [],
+            "sku": "",
+            "price": 17.5,
+            "image": {
+                "id": "",
+                "src": ""
+            },
+            "parent_name": null
+        },
+        {
+            "id": 205,
+            "name": "Long Sleeve Tee",
+            "product_id": 37,
+            "variation_id": 0,
+            "quantity": 1,
+            "tax_class": "",
+            "subtotal": "25.00",
+            "subtotal_tax": "0.00",
+            "total": "22.50",
+            "total_tax": "0.00",
+            "taxes": [],
+            "meta_data": [],
+            "sku": "",
+            "price": 22.5,
+            "image": {
+                "id": "18",
+                "src": "http://php74dev.com/wordpress/wp-content/uploads/2022/09/long-sleeve-tee.jpg"
+            },
+            "parent_name": null
+        }
+    ],
+    "tax_lines": [],
+    "shipping_lines": [
+        {
+            "id": 206,
+            "method_title": "Free shipping",
+            "method_id": "free_shipping",
+            "instance_id": "",
+            "total": "0.00",
+            "total_tax": "0.00",
+            "taxes": [],
+            "meta_data": []
+        }
+    ],
+    "fee_lines": [],
+    "coupon_lines": [
+        {
+            "id": 207,
+            "code": "amisha",
+            "discount": "10",
+            "discount_tax": "0",
+            "meta_data": [
+                {
+                    "id": 1594,
+                    "key": "coupon_data",
+                    "value": {
+                        "id": 52,
+                        "code": "amisha",
+                        "amount": "10",
+                        "status": "publish",
+                        "date_created": {
+                            "date": "2022-10-21 04:45:46.000000",
+                            "timezone_type": 1,
+                            "timezone": "+00:00"
+                        },
+                        "date_modified": {
+                            "date": "2022-10-31 07:14:12.000000",
+                            "timezone_type": 1,
+                            "timezone": "+00:00"
+                        },
+                        "date_expires": {
+                            "date": "2022-11-30 00:00:00.000000",
+                            "timezone_type": 1,
+                            "timezone": "+00:00"
+                        },
+                        "discount_type": "fixed_cart",
+                        "description": "",
+                        "usage_count": 15,
+                        "individual_use": true,
+                        "product_ids": [
+                            36,
+                            40
+                        ],
+                        "excluded_product_ids": [],
+                        "usage_limit": 0,
+                        "usage_limit_per_user": 0,
+                        "limit_usage_to_x_items": null,
+                        "free_shipping": false,
+                        "product_categories": [],
+                        "excluded_product_categories": [],
+                        "exclude_sale_items": false,
+                        "minimum_amount": "",
+                        "maximum_amount": "",
+                        "email_restrictions": [],
+                        "virtual": false,
+                        "meta_data": []
+                    },
+                    "display_key": "coupon_data",
+                    "display_value": {
+                        "id": 52,
+                        "code": "amisha",
+                        "amount": "10",
+                        "status": "publish",
+                        "date_created": {
+                            "date": "2022-10-21 04:45:46.000000",
+                            "timezone_type": 1,
+                            "timezone": "+00:00"
+                        },
+                        "date_modified": {
+                            "date": "2022-10-31 07:14:12.000000",
+                            "timezone_type": 1,
+                            "timezone": "+00:00"
+                        },
+                        "date_expires": {
+                            "date": "2022-11-30 00:00:00.000000",
+                            "timezone_type": 1,
+                            "timezone": "+00:00"
+                        },
+                        "discount_type": "fixed_cart",
+                        "description": "",
+                        "usage_count": 15,
+                        "individual_use": true,
+                        "product_ids": [
+                            36,
+                            40
+                        ],
+                        "excluded_product_ids": [],
+                        "usage_limit": 0,
+                        "usage_limit_per_user": 0,
+                        "limit_usage_to_x_items": null,
+                        "free_shipping": false,
+                        "product_categories": [],
+                        "excluded_product_categories": [],
+                        "exclude_sale_items": false,
+                        "minimum_amount": "",
+                        "maximum_amount": "",
+                        "email_restrictions": [],
+                        "virtual": false,
+                        "meta_data": []
+                    }
+                }
+            ]
+        }
+    ],
+    "refunds": [],
+    "payment_url": "http://php74dev.com/wordpress/checkout/order-pay/116/?pay_for_order=true&key=wc_order_Ton9cFDivCYOK",
+    "is_editable": true,
+    "needs_payment": true,
+    "needs_processing": true,
+    "date_created_gmt": "2022-11-15T13:41:52",
+    "date_modified_gmt": "2022-11-15T13:41:53",
+    "date_completed_gmt": null,
+    "date_paid_gmt": null,
+    "currency_symbol": "$",
+    "_links": {
+        "self": [
+            {
+                "href": "http://php74dev.com/wordpress/wp-json/wc/v3/orders/116"
+            }
+        ],
+        "collection": [
+            {
+                "href": "http://php74dev.com/wordpress/wp-json/wc/v3/orders"
+            }
+        ]
+    }
+}}
+  
 };
 
 
